@@ -1,0 +1,92 @@
+<form name="waitingForm" novalidate>
+<!-- ACTION -->
+<div class="row" style="margin-bottom: 15px;">
+    <div class="col-md-2 col-sm-3 col-xs-6">
+        <button class="btn btn-sm btn-block green" ng-click="clickAction({type: mode.type})">
+            <i class="fa fa-plus"></i>
+        </button>
+    </div>
+    <div class="col-md-2 col-sm-2 col-xs-2 pull-right text-center" ng-if="isClose">
+        <button class="btn btn-sm btn-block red" ng-click="closePopup()">
+            <i class="fa fa-times"></i>
+        </button>
+    </div>
+</div>
+<!-- END ACTION -->
+
+<div class="row">
+	<!-- REASON -->
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <span class="field">
+            <label for="reason">Reason</label>
+            <input type="text" id="reason"
+                name="reason" ng-model="modelObjectMap.reason" placeholder="Reason" float-label />
+        </span>
+    </div>
+    <!-- END REASON -->
+    <div class="break-row"></div>
+    <!-- PRIORITY -->
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <span class="field" ng-class="{'has-error': waitingForm.priority.$invalid && isSubmit}">
+            <label for="priority">Priority *</label>
+            <select required ng-options="type.code as type.name for type in options.priorities" 
+                name="priority" ng-model="modelObjectMap.priority" id="priority" float-label>
+                <option value="" disabled selected>Priority</option>
+            </select>
+            <!-- ERROR -->
+            <span ng-show="waitingForm.priority.$invalid && isSubmit">
+                <span class="mdt-popover above" ng-show="waitingForm.priority.$error.required">
+                    Priority is required.
+                </span>
+            </span>
+            <!-- ERROR -->
+        </span>
+    </div>
+    <!-- END PRIORITY -->
+    <!-- SELECT DOCTOR -->
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <span class="field">
+            <button class="btn btn-small btn-block green" ng-click="clickDoctor()">{{selectedDoctor.NAME}}</button>
+            <!-- ERROR -->
+            <span ng-show="selectedDoctor.error && isSubmit">
+                <span class="mdt-popover above">
+                    You must select doctor.
+                </span>
+            </span>
+            <!-- ERROR -->
+        </span>
+</div>
+    <!-- END SELECT DOCTOR -->
+    <!-- SELECT PATIENT -->
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <span class="field">
+            <button class="btn btn-small btn-block green" ng-click="clickPatient()">
+                {{selectedPatient.First_name}} {{selectedPatient.Sur_name}}
+            </button>
+            <!-- ERROR -->
+            <span ng-show="selectedPatient.error && isSubmit">
+                <span class="mdt-popover above">
+                    You must select patient.
+                </span>
+            </span>
+            <!-- ERROR -->
+        </span>
+    </div>
+    <!-- END SELECT PATIENT -->
+</div>
+
+<!-- SEARCH PATIENT -->
+<div class="mdt-search" id="searchPatient">
+    <patient-search is-close="searchPatient" click-row="selectPatient(row)">
+    </patient-search>
+</div>
+<!-- END SEARCH PATIENT -->
+
+<!-- SEARCH DOCTOR -->
+<div class="mdt-search" id="searchDoctor">
+    <doctor-search is-close="searchDoctor" click-row="selectDoctor(row)">
+    </doctor-search>
+</div>
+<!-- END SEARCH DOCTOR-->
+
+</form>

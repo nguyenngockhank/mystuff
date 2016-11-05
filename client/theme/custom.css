@@ -1,0 +1,615 @@
+
+a, a:active, a:focus{
+    cursor: pointer;
+}
+
+.break-row{
+    clear: both;
+}
+
+.page-header-fixed .page-container{
+    margin-top: 0;
+}
+
+.form-group label{
+    padding-top: 6px;
+}
+
+.page-content-wrapper .page-content{
+    min-height: 60em;
+}
+
+.form-group.detail > div{
+    margin-top: 15px;
+}
+
+/**
+* Khank Style
+*/
+.mdt-logo{
+    margin: 0 auto;
+    margin-top: 60px;
+    padding: 15px;
+}
+#appt_tab .nav-tabs {margin-bottom: 0px;}
+#appt_tab .nav-tabs>li.active>a, .nav-tabs>li.active>a:hover{
+	border-left: 1px solid #b1bdbd;
+	border-right: 1px solid #b1bdbd;
+	border-top: 3px solid #f3565d;
+	color: black;
+	font-weight: bold;
+}
+#appt_paperless  .row{
+	margin-right: 0px;
+	margin-left: 0px;
+}
+#appt_paperless  .paperless a{
+	display: block;
+	padding: 7px;
+	border-bottom: 1px solid #ddd;
+}
+/**
+* End Khank Style
+*/
+
+/* Vuong Custom Timepicker */
+.ui-timepicker-table td{
+    padding: 0.2em;
+}
+.ui-timepicker-table td a{
+    padding: 3px;
+    width: auto;
+}
+/* END */
+
+/* MODAL DIALOG */
+.modal-lg{
+    width: 98%;
+}
+/* END MODAL DIALOG */
+
+/* MEDITEK CHECKBOX */
+.mdt-checkbox, .mdt-selection, .mdt-sex{
+    display: none;
+}
+
+[class^="mdt-checkbox"] + label:before{
+    border-radius: 100px;
+    box-shadow: 0 12px 20px #fff inset;
+    content: " ";
+    display: none;
+    height: 8px;
+    position: absolute;
+    right: 17px;
+    top: 10px;
+    width: 8px;
+    z-index: 999;
+}
+
+[class^="mdt-checkbox"] + label:after{
+    border-radius: 100px;
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.4) inset;
+    content: " ";
+    height: 18px;
+    position: absolute;
+    right: 12px;
+    top: 5px;
+    width: 18px;
+}
+
+[class^="mdt-checkbox"]:checked + label:before {
+    display: block;
+}
+
+input[class^="mdt-checkbox"] + label{
+    color: #333;
+    text-align: center;
+    text-shadow: 0 1px 1px rgba(255,255,255,0.75);
+    vertical-align: middle;
+    cursor: pointer;
+    background-color: #f5f5f5;
+    background-image: -moz-linear-gradient(top,#fff,#e6e6e6);
+    background-image: -webkit-gradient(linear,0 0,0 100%,from(#fff),to(#e6e6e6));
+    background-image: -webkit-linear-gradient(top,#fff,#e6e6e6);
+    background-image: -o-linear-gradient(top,#fff,#e6e6e6);
+    background-image: linear-gradient(to bottom,#fff,#e6e6e6);
+    background-repeat: repeat-x;
+    border: 1px solid #ccc;
+    border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+    border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+    border-bottom-color: #b3b3b3;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff',endColorstr='#ffe6e6e6',GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+    -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+    -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+    display: inline-block;
+    font-size: 1em;
+    padding: 5px 50px 5px 16px;
+    position: relative;
+    width: 100%;
+}
+/* END MEDITEK CHECKBOX */
+
+/* MEDITEK SELECTION */
+.mdt-selection + label:after, .mdt-selection + label:before, .mdt-selection label,
+.mdt-sex + label:after, .mdt-sex + label:before, .mdt-sex label{
+    transition: all 0.1s ease-in 0s;
+}
+
+[class^="mdt-selection"]:checked + label:before{
+    content: " ";
+    left: 49px;
+    position: absolute;
+    z-index: 99999;
+}
+
+[class^="mdt-sex"]:checked + label:before{
+    left: 80px;
+}
+
+[class^="mdt-selection"] + label:before,
+[class^="mdt-sex"] + label:before{
+    background: none repeat scroll 0 0 #fff;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.6);
+    color: #fff;
+    content: "";
+    height: 35px;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 20px;
+    z-index: 99999;
+}
+
+[class^="mdt-selection"]:checked + label:after{
+    content: "Yes";
+    left: 6px;
+}
+
+[class^="mdt-sex"]:checked + label:after{
+    content: "Female";
+    left: 6px;
+}
+
+[class^="mdt-selection"] + label:after,
+[class^="mdt-sex"] + label:after{
+    left: 35px;
+}
+
+[class^="mdt-selection"] + label:after{
+    color: #fff;
+    content: "No";
+    font-size: 1em;
+    font-weight: 700;
+    left: 8px;
+    padding: 5px 15px;
+    position: absolute;
+    top: 4px;
+}
+
+[class^="mdt-sex"] + label:after{
+    color: #fff;
+    content: "Male";
+    font-size: 1em;
+    font-weight: 700;
+    left: 8px;
+    padding: 5px 15px;
+    position: absolute;
+    top: 4px;
+}
+
+[class^="mdt-selection"]:checked + label,
+[class^="mdt-sex"]:checked + label{
+    background: none repeat scroll 0 0 #67a5df;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1) inset, 0 0 10px rgba(146, 196, 245, 0.4);
+}
+
+[class^="mdt-selection"] + label{
+    background: none repeat scroll 0 0 #f7836d;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1) inset, 0 0 10px rgba(245, 146, 146, 0.4);
+    display: inline-block;
+    height: 35px;
+    margin-right: 15px;
+    padding: 11px 9px;
+    position: relative;
+    width: 70px;
+}
+
+[class^="mdt-sex"] + label{
+    background: none repeat scroll 0 0 #f7836d;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1) inset, 0 0 10px rgba(245, 146, 146, 0.4);
+    display: inline-block;
+    height: 35px;
+    margin-right: 15px;
+    padding: 11px 9px;
+    position: relative;
+    width: 100px;
+}
+/* END MEDITEK SELECTION */
+
+/* MEDITEK INPUT AND SELECT */
+.field {
+    margin-bottom: 15px;
+    display: block;
+    position: relative;
+    height: 36px;
+    border: 2px solid rgb(100,160,217);
+    transition-duration: 0.1s;
+    transition-property: height, border-width;
+    transition-timing-function: ease-in;
+}
+
+.field.has-error{
+    border: 2px solid rgb(239,127,106);
+}
+
+.field input, .field select, .field textarea{
+   border: none;
+   width: 100%;
+   height: 32px;
+   box-sizing: border-box;
+   padding-left: 10px;
+}
+
+.field select:disabled{
+    background-color: rgb(240,240,240);
+}
+
+.field label {
+    height: 0;
+    overflow: hidden;
+    position: absolute;
+    right: 0; bottom: 0; left: 0;
+    font-size: 12px;
+    color: #fff;
+    background: rgb(100,160,217);
+    transition: max-height 0.1s ease-in 0s;
+    margin-bottom: 0;
+    padding: 0px 3px;
+}
+
+.field.has-error label{
+    background: rgb(239,127,106);
+}
+
+.field.show-label {
+    height: 48px;
+    border-bottom: none;
+}
+.field.show-label input {
+    height: 27px;
+}
+.field.show-label label {
+    height: 18px;
+}
+/* END MEDITEK INPUT AND SELECT */
+
+/* MEDITEK RADIO BUTTON */
+.mdt-radio{
+    display: none;
+}
+
+.mdt-radio + label{
+    display:inline-block;
+    margin:-2px;
+    padding: 4px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    line-height: 20px;
+    color: #333;
+    text-align: center;
+    text-shadow: 0 1px 1px rgba(255,255,255,0.75);
+    vertical-align: middle;
+    cursor: pointer;
+    background-color: #f5f5f5;
+    background-image: -moz-linear-gradient(top,#fff,#e6e6e6);
+    background-image: -webkit-gradient(linear,0 0,0 100%,from(#fff),to(#e6e6e6));
+    background-image: -webkit-linear-gradient(top,#fff,#e6e6e6);
+    background-image: -o-linear-gradient(top,#fff,#e6e6e6);
+    background-image: linear-gradient(to bottom,#fff,#e6e6e6);
+    background-repeat: repeat-x;
+    border: 1px solid #ccc;
+    border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+    border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+    border-bottom-color: #b3b3b3;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff',endColorstr='#ffe6e6e6',GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+    -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+    -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+}
+
+.mdt-radio:checked + label{
+    background-image: none;
+    outline: 0;
+    -webkit-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
+    -moz-box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.15),0 1px 2px rgba(0,0,0,0.05);
+    background-color:#e0e0e0;
+}
+/* END MEDITEK RADIO BUTTON */
+
+/* MEDITEK POPOVER */
+.mdt-popover {
+    background-color: rgb(239,127,106);
+    border-radius: 5px;
+    bottom: 45px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.4);
+    color: #fff;
+    font-size: 12px;
+    font-family: 'Helvetica',sans-serif;
+    right: 0;
+    padding: 7px 10px;
+    position: absolute;
+    width: 200px;
+    z-index: 4;
+}
+
+.mdt-popover:before{
+    border-top: 7px solid rgb(239,127,106);
+    border-right: 7px solid transparent;
+    border-left: 7px solid transparent;
+    bottom: -7px;
+    content: '';
+    display: block;
+    left: 50%;
+    margin-left: -7px;
+    position: absolute;
+}
+/* END MEDITEK POPOVER */
+
+/* MEDITEK TABLE */
+.mdt-table{
+    background: #f5f5f5;
+    border-collapse: separate;
+    box-shadow: inset 0 1px 0 #fff;
+    font-size: 12px;
+    line-height: 24px;
+    margin: 0px auto;
+    text-align: left;
+    width: 100%;
+    border: 1px solid #ddd;
+}
+
+.mdt-table th{
+    background: linear-gradient(#777, #444);
+    border-left: 1px solid #555;
+    border-right: 1px solid #777;
+    border-top: 1px solid #555;
+    border-bottom: 1px solid #333;
+    box-shadow: inset 0 1px 0 #999;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px 15px;
+    position: relative;
+    text-shadow: 0 1px 0 #000;
+}
+
+.mdt-table th:after{
+    background: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,.08));
+    content: '';
+    display: block;
+    height: 25%;
+    left: 0;
+    margin: 1px 0 0 0;
+    position: absolute;
+    top: 25%;
+    width: 100%;
+}
+
+.mdt-table th:first-child {
+    border-left: 1px solid #777;    
+    box-shadow: inset 1px 1px 0 #999;
+}
+
+.mdt-table th:last-child {
+    box-shadow: inset -1px 1px 0 #999;
+}
+
+.mdt-table td {
+    border-right: 1px solid #fff;
+    border-left: 1px solid #e8e8e8;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #e8e8e8;
+    padding: 10px 15px;
+    position: relative;
+    transition: all 300ms;
+}
+
+.mdt-table td:first-child {
+    box-shadow: inset 1px 0 0 #fff;
+}   
+
+.mdt-table td:last-child {
+    border-right: 1px solid #e8e8e8;
+    box-shadow: inset -1px 0 0 #fff;
+}
+
+.mdt-table tr {
+    background: #f1f1f1; 
+}
+.mdt-table tr.selected {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.mdt-table tr:nth-child(odd) td {
+    background: #f1f1f1;  
+}
+
+.mdt-table tr:last-of-type td {
+    box-shadow: inset 0 -1px 0 #fff; 
+}
+
+.mdt-table tr:last-of-type td:first-child {
+    box-shadow: inset 1px -1px 0 #fff;
+}   
+
+.mdt-table tr:last-of-type td:last-child {
+    box-shadow: inset -1px -1px 0 #fff;
+}   
+/*.mdt-table tr:hover {
+    opacity: 0.7
+}*/
+
+.mdt-table td {
+    border-right: 1px solid #fff;
+    border-left: 1px solid #e8e8e8;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #e8e8e8;
+    padding: 10px 15px;
+    position: relative;
+    transition: all 300ms;
+    vertical-align: middle !important;
+}
+
+.mdt-table td:first-child {
+    box-shadow: inset 1px 0 0 #fff;
+}   
+
+.mdt-table td:last-child {
+    border-right: 1px solid #e8e8e8;
+    box-shadow: inset -1px 0 0 #fff;
+}
+/* END MEDITEK TABLE */
+
+/* MEDITEK SEARCH */
+@media screen and (min-width: 768px) {
+    .mdt-search{
+        background-color: rgb(241,241,241);
+        position: fixed;
+        width: 50%;
+        top: 0;
+        right: 0;
+        padding: 10px 15px;
+        z-index: 9999;
+        border: 2px solid rgb(100,160,217);
+        display: none;
+        overflow-y: auto;
+        max-height: 100%;
+    }
+}
+
+@media screen and (max-width: 767px){
+    .mdt-search{
+        background-color: rgb(241,241,241);
+        position: fixed;
+        width: 75%;
+        top: 0;
+        right: 0;
+        padding: 10px 15px;
+        z-index: 9999;
+        border: 2px solid rgb(100,160,217);
+        display: none;
+        overflow-y: auto;
+        max-height: 100%;
+    }
+}
+
+
+/* END MEDITEK SEARCH */
+
+/* MEDITEK BOOKING TABLE */
+table.mdt-booking-table{
+    width: auto;
+}
+
+table.mdt-booking-table thead tr th{
+    background-color: rgb(2,174,112);
+    padding: 6px 11px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    border: 1px solid rgb(2,174,112);
+}
+
+table.mdt-booking-table thead tr th.no-border{
+    background-color: rgb(241,243,250);
+    border: none;
+}
+
+table.mdt-booking-table thead tr a{
+    color: white;
+}
+
+table.mdt-booking-table tbody td{
+    background-color: white;
+    padding: 15px;
+    text-align: center;
+    font-size: 13px;
+    border: 1px solid rgb(2,174,112);
+    width: 150px;
+}
+
+table.mdt-booking-table tbody td.time-booking{
+    width: 100px;
+    background-color: rgb(2,174,112);
+    color: white;
+    border: 1px solid white;
+}
+/* END MEDITEK BOOKING TABLE */
+
+/* MEDITEK LIST BOOKING PATIENT */
+ul.mdt-list-booking-patient{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+/* END MEDITEK LIST BOOKING PATIENT */
+
+.view-mode{
+    border: none;
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-image: none;
+}
+.tabbable-custom {
+overflow: visible;
+}
+/* TIMETABLE TABLE */
+table.timetable-table{
+    color: #333;
+    font-family: sans-serif;
+    font-weight: 300;
+    text-align: left;
+    line-height: 40px;
+    border-spacing: 0;
+    border: 1px solid #428bca;
+    width: 100%;
+    margin: 20px auto;
+}
+
+table.timetable-table thead tr:first-child {
+    background: #428bca;
+    color: #fff;
+    border: none;
+}
+
+table.timetable-table th {font-weight: bold;}
+table.timetable-table th, td {padding: 0 15px 0 20px;}
+
+table.timetable-table thead tr:last-child th {border-bottom: 2px solid #ddd;}
+
+table.timetable-table tbody tr:last-child td {border: none;}
+table.timetable-table tbody td {border-bottom: 1px solid #ddd;}
+
+table.timetable-table td:last-child {
+  text-align: right;
+  padding-right: 10px;
+}
+
+.mdt-input-mask{
+    width: 100%;
+    font-size: .9em;
+    text-align: center;
+    border: 1px solid #428bca;
+    margin: 20px auto;
+}
+/* END TIMETABLE TABLE */
+.mdt-green{
+    color: #F0FBFF
+}

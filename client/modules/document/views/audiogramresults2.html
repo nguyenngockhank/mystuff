@@ -1,0 +1,238 @@
+<form name="SA2" method="post" novalidate>
+    <div class="caption">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <button type="button"
+                        ng-disabled="SA2.$error.pattern || SA2.$error.maxlength || !infoChanged()"
+                        ng-click="submit(SA2)" class="btn green pull-right">{{isNew?"Add new":"Update"}}
+                </button>
+
+                <a href="http://testapp.redimed.com.au:3003/RedimedJavaREST/api/document/SA2/{{info.headers[0].SA_ID}}/{{info.CAL_ID}}/{{info.patient_id}}"
+
+                   target="_self"
+                   ng-disabled="SA2.$error.pattern || SA2.$error.maxlength || infoChanged() || isNew"
+                   ng-click="print()" class="btn btn-primary blue pull-right">Print PDF
+                </a>
+                <button ng-disabled="!infoChanged()" ng-click="resetForm()" class="btn btn-danger pull-right">Reset
+                </button>
+            </div>
+        </div>
+        <br/>
+    </div>
+    <!--begin header-->
+    <div class="row" ng-repeat="(hIndex,header) in info.headers">
+        <!--begin section-->
+        <div ng-repeat="(sIndex,section) in header.sections">
+            <div class="portlet box grey-cascade">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-gift"></i>{{header.SA_NAME}}
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="col-md-6 col-sm-6">
+                                <label class="control-label">Client Name:&nbsp;<span class="text-info">
+                                             {{((info.patient.First_name==null||info.patient.First_name=='')?'':info.patient.First_name) +
+                                        ((info.patient.First_name==null||info.patient.First_name=='')?'':' ') +
+                                        ((info.patient.Middle_name==null||info.patient.Middle_name=='')?'':info.patient.Middle_name) +
+                                        ((info.patient.First_name==null||info.patient.First_name=='')?'':' ') +
+                                        ((info.patient.Sur_name==null||info.patient.Sur_name=='')?'':info.patient.Sur_name)}}
+                                        </span>
+                                </label>
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                                <label class="control-label">DOB:&nbsp;<span class="text-info">{{info.patient.DOB|date:'dd/MM/yyyy'}}</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-sm-12">
+                            <div class="col-md-12 col-sm-12">
+                                <label class="control-label" style="text-align: left;width: auto;">Employer
+                                    Name:&nbsp;<span
+                                            class="text-info">{{info.company.company_name}}</span></label>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-sm-12">
+                            <div class="col-md-3 col-sm-3" style="width: auto;margin-top: 5px;">
+                                <label class="control-label">Audiometric Officer Name:</label>
+                            </div>
+                            <div ng-class="{'has-error': SA2.RECIPIENT_NAME.$error.maxlength}">
+                                <div class="col-md-5 col-sm-7">
+                                    <input type="text" class="form-control" ng-model="info.tester"
+                                           ng-maxlength="200"/>
+
+                                    <div class="help-block" ng-show="SA2.RECIPIENT_NAME.$error.maxlength">
+                                        <label class="control-label">Too long!</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="col-md-3 col-sm-3"
+                                 style="text-align: left;width: auto;margin-top: 5px;">
+                                <label class="control-label">Date of Audiometric Test :</label>
+                            </div>
+                            <div class="col-md-3 col-sm-3">
+                                <input type="text" class="form-control" name="dob"
+                                       ng-model="info.test_date"
+                                       datepicker-popup="dd/MM/yyyy"
+                                       is-open="openDOB" ng-click="openDOB = true"
+                                       datepicker-options="dateOptions3"
+                                       close-text="Close"/>
+                            </div>
+                            <div class="col-md-3 col-sm-4">
+                                <label class="control-label">Test Center: &nbsp;<span
+                                        class="text-info">REDiMED</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="col-md-12 col-sm-12">
+                                <label class="control-label">Here are the results of your
+                                    hearing test
+                                    and what they mean.</label>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <label class="control-label" style="text-align: left;">What is
+                                    an audiogram? An audiogram shows
+                                    the softest level at which a person can hear a range of
+                                    different
+                                    pure tones.</label>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <label class="control-label bold">Here is your
+                                    audiogram:</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default" style="width: 700px;margin-left: 10px;">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12" style="text-align: center;">
+                                    <div class="col-md-3 col-sm-3">
+                                        <label class="control-label">Frequence (Hz)</label>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3">
+                                        <label class="control-label">Right Ear (dB)</label>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3">
+                                        <label class="control-label">Left Ear (dB)</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--begin lines-->
+                            <div ng-repeat="(lIndex, line) in section.lines">
+                                <ng-form name="lineForm">
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12">
+                                            <div class="col-md-3 col-sm-3"
+                                                 style="text-align: center;">
+                                                <label class="control-label">{{line.NAME}}</label>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <div ng-class="{'has-error': lineForm.left.$error.pattern}">
+                                                    <input type="text" class="form-control"
+                                                           name="left"
+                                                           ng-model="info.headers[hIndex].sections[sIndex].lines[lIndex].VALUE_LEFT"
+                                                           ng-pattern="/^(0|\-?[1-9][0-9]*)$/"
+                                                           style="text-align: center;"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <div ng-class="{'has-error': lineForm.right.$error.pattern}">
+                                                    <input type="text" class="form-control"
+                                                           name="right"
+                                                           ng-model="info.headers[hIndex].sections[sIndex].lines[lIndex].VALUE_RIGHT"
+                                                           ng-pattern="/^(0|\-?[1-9][0-9]*)$/"
+                                                           style="text-align: center;"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-form>
+                                <div class="row">
+                                    <div class="col-md-3">
+
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div ng-class="{'has-error': lineForm.left.$error.pattern}">
+                                            <div ng-show="lineForm.left.$error.pattern">
+                                                <label class="control-label">Required is
+                                                    number!</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div ng-class="{'has-error': lineForm.right.$error.pattern}">
+                                            <div ng-show="lineForm.right.$error.pattern">
+                                                <label class="control-label">Required is
+                                                    number!</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+                            </div>
+                            <!--end lines-->
+                        </div>
+                    </div>
+                    <br/>
+
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="col-md-12 col-sm-12">
+                                <label class="control-label" style="text-align: left;">Normal hearing falls between 0dB
+                                    and 20dB. If your O's and X's (representing your right and left hearing thresholds)
+                                    are
+                                    within this range you are said to have normal hearing. If the thresholds are below
+                                    the 20dB line you have some degree of
+                                    hearing loss - the further down the chart the greater the degree of hearing
+                                    loss.</label>
+                            </div>
+                            <div class="col-md-4 col-sm-4" style="width: auto;">
+                                <label class="control-label">Degrees of hearing loss are defined as:</label>
+                            </div>
+                            <div class="col-md-8 col-sm-8">
+                                <p>
+                                    Mild loss 25-45 dB
+                                </p>
+
+                                <p>
+                                    Moderate loss 45-65 dB
+                                </p>
+
+                                <p>
+                                    Severe loss 65-90 dB <br/>
+                                </p>
+
+                                <p>
+                                    Profound loss >95 dB+
+                                </p>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <p style="text-align: left;">
+                                    All the major sounds of speech are in the 20dB to 60dB range. If your own hearing
+                                    thresholds
+                                    show some degree of hearing
+                                    loss you may have difficulty hearing some speech sounds some of the time (and other
+                                    environmental sounds as well). See
+                                    your doctor or an audiologist for more information about your hearing.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

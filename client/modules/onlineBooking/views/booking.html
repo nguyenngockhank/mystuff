@@ -1,0 +1,129 @@
+<style>
+    .selected {
+        background-color: rgba(69, 51, 36, 0.36);
+    }
+
+</style>
+
+<h3 class="page-title">Booking List</h3>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a ui-sref="loggedIn.home">Home</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="javascript:;">Online Booking</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a>Booking List</a>
+        </li>
+    </ul>
+</div>
+<div class="portlet grey-cascade box">
+    <div class="portlet-title">
+        <div class="caption ">
+            <i class="icon-list"></i>
+            <span class="caption-subject uppercase">List</span>
+        </div>
+        <div class="actions">
+            <a href="javascript:;" ng-click="searchModal()" class="btn green-jungle btn-sm">
+                <i class="glyphicon glyphicon-search"></i> Search</a>
+            <a  href="/api/booking/export/{{cId}}" class="btn red-thunderbird btn-sm">
+                <i class="fa fa-file"></i> Export Excel</a>
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class="table-scrollable" id="content">
+            <table ng-table="tableParams" show-filter="true" class="table table-hover table-bordered table-responsive">
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Candidates</th>
+                        <th>Appointment Time</th>
+                        <th>Site Name</th>
+                        <th>Booking Person</th>
+                        <th>Appointment Notes</th>
+                        <th>Appointment Status</th>
+                        <th ng-if="isExtra == 1">Package</th>
+                        <th ng-if="isExtra == 1">Project Identification</th>
+                        <th ng-if="isExtra == 1">PO Number</th>
+                        <th ng-if="isExtra == 1">Fee</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="b in $data" style="white-space: nowrap; cursor: pointer;" ng-click="bookingSelected(b)" ng-class="{selected : b.Candidate_id === selectedCanId && b.Booking_id === selectedBookId}">
+                        <td class="col-md-12" data-title="'Company'" sortable="'company_name'" filter="{'company_name':'text'}">
+                            <label >{{b.company_name}}</label>
+                        </td>
+                        <td  data-title="'Candidates'" sortable="'Candidates_name'" filter="{'Candidates_name':'text'}">
+                            <a href="javascript:;" ng-click="openDetail(b)">{{b.Candidates_name}}</a>
+                        </td>
+                        <td class="col-md-12" data-title="'Appointment Time'" sortable="'Appointment_time'" >
+                            <label>{{b.Appointment_time | date:'dd/MM/yyyy - HH:mm'}}</label>
+                        </td>
+                        <td data-title="'Site Name'" sortable="'site_name'" >
+                            <label>{{b.site_name}}</label>
+                        </td>
+                        <td data-title="'Booking Person'" sortable="'Booking_Person'" filter="{'Booking_Person':'text'}">
+                            <label>{{b.Booking_Person}}</label>
+                        </td>
+                        <td data-title="'Appointment Notes'" sortable="'Appointment_notes'">
+                            <a href="#" onaftersave="updateNote(b)" editable-textarea="b.Appointment_notes">{{ b.Appointment_notes || "Empty" }}</a>
+                        </td>
+                        <td data-title="'Appointment Status'" sortable="'Appointment_status'" >
+                            <span ng-if="b.Appointment_status == 'Pending'" class="label label-sm label-warning">
+													Pending </span>
+                            <span ng-if="b.Appointment_status == 'Confirmed'" class="label label-sm label-success">
+													Confirmed </span>
+                            <span ng-if="b.Appointment_status == 'Cancelled'" class="label label-sm label-danger">
+													Cancelled </span>
+                        </td>
+                        <td ng-if="isExtra == 1" data-title="'Package'" sortable="'package_name'">
+                            <label>{{b.package_name}}</label>
+                        </td>
+                        <td ng-if="isExtra == 1" data-title="'Project Identification'">
+                            <label>{{b.Project_Identofication}}</label>
+                        </td>
+                        <td ng-if="isExtra == 1" data-title="'PO Number'">
+                            <label>{{b.PO_Number}}</label>
+                        </td>
+                        <td ng-if="isExtra == 1" data-title="'Fee'" sortable="'fee'">
+                            <label>{{b.fee}} $</label>
+                        </td>
+                        <!--<td class="col-md-12" data-title="'Actions'">-->
+                            <!--<div class="btn-group pull-right dropup" ng-class="{dropdown:$first}" dropdown is-open="status.isopen">-->
+                                <!--<button type="button" class="btn btn-primary dropdown-toggle" ng-disabled="disabled">-->
+                                    <!--Menu <span class="caret"></span>-->
+                                <!--</button>-->
+                                <!--<ul class="dropdown-menu" role="menu">-->
+                                    <!--<li><a href="javascript:;" ng-click="openDetail(b)">Booking Details</a></li>-->
+                                    <!--<li><a ng-if="b.Appointment_status !== 'Cancelled'" href="javascript:;" ng-click="changeBookingTime(b)">Change Booking Time</a></li>-->
+                                    <!--<li><a ng-if="b.Appointment_status !== 'Cancelled'" href="javascript:;" ng-click="cancelBooking(b)">Cancel</a></li>-->
+                                <!--</ul>-->
+                            <!--</div>-->
+                        <!--</td>-->
+                        <td align="center" data-title="'Actions'">
+                            <a style="width: 75px" href="javascript:;" ng-click="openDetail(b)" class="btn btn-circle green-jungle btn-sm">
+                                <i class="fa fa-list"></i> Details </a>
+                            <a style="width: 75px" href="javascript:;" ng-click="changeBookingTime(b)" class="btn btn-circle blue-steel btn-sm">
+                                <i class="fa fa-pencil"></i> Edit </a>
+                            <a style="width: 75px" href="javascript:;" ng-click="cancelBooking(b)" class="btn btn-circle red-flamingo btn-sm">
+                                <i class="fa fa-times"></i> Cancel </a>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+

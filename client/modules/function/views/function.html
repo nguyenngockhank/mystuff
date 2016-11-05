@@ -1,0 +1,58 @@
+<h3 class="page-title">Function</h3>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a ui-sref="loggedIn.home">Home</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="javascript:;">System</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a>Function</a>
+        </li>
+    </ul>
+</div>
+
+<div class="portlet grey-cascade box">
+    <div class="portlet-title">
+        <div class="caption ">
+            <i class="icon-list"></i>
+            <span class="caption-subject uppercase">Function List</span>
+        </div>
+        <div class="actions">
+            <a href="javascript:;" ng-click="addNewFunction()" class="btn green-jungle btn-sm">
+                <i class="fa fa-plus"></i> Add New</a>
+        </div>
+    </div>
+    <div class="portlet-body">
+
+        <div class="table-scrollable" id="content">
+            <table ng-table="tableParams"  show-filter="true" class="table table-striped table-hover table-bordered table-responsive">
+                <tr ng-repeat="f in $data track by $index | orderBy:'decription'">
+                    <td data-title="'Description'" sortable="'decription'" filter="{ 'decription': 'text' }">
+                        <label>{{f.decription}}</label>
+                    </td>
+                    <td data-title="'Definition'" filter="{ 'definition': 'text' }">
+                        <label>{{f.definition}}</label>
+                    </td>
+                    <td data-title="'Type'" >
+                        <label>{{f.type}}</label>
+                    </td>
+                    <td align="center" data-title="'Actions'">
+                        <a style="width: 75px" href="javascript:;" ng-click="editFunction(f)" class="btn btn-circle blue-steel btn-sm">
+                            <i class="fa fa-pencil"></i> Edit </a>
+                        <a style="width: 75px" href="javascript:;" ng-click="deleteFunction(f)" class="btn btn-circle red-flamingo btn-sm">
+                            <i class="fa fa-times"></i> Delete </a>
+                    </td>
+                </tr>
+
+            </table>
+            <br/>
+        </div>
+
+    </div>
+
+</div>

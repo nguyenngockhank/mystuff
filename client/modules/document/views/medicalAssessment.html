@@ -1,0 +1,801 @@
+<form name="MAForm" ng-submit="submitMA(MAForm)" method="post" novalidate>
+    <div class="row">
+        <div class="col-md-12 ">
+            <button type="submit"
+                    ng-disabled="!infoChanged()"
+                    class="btn green pull-right">{{isNew?"Add New":"Update"}}
+            </button>
+
+            <a href="http://testapp.redimed.com.au:3003/RedimedJavaREST/api/document/MA/{{info.MA_ID}}"
+               type="button"
+               ng-disabled="isNew || infoChanged()"
+               class="btn btn-primary blue pull-right">Print PDF
+            </a>
+            <a href="javascript:;" ng-disabled="!infoChanged()"  ng-click="resetForm()" class="btn btn-danger pull-right">Reset</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-sm-6" style="margin-bottom: 10px"  ng-class="{'has-error':mrsForm.sticker_here.$error.maxlength}">
+            <label class="control-label">Sticker Here:</label>
+            <textarea class="form-control" ng-model="info.STICKER" style="height: 100px" ng-maxlength="500" name="sticker_here"></textarea>
+            <label class="control-label help-block col-md-12 col-sm-12" ng-show="mrsForm.sticker_here.$error.maxlength">Sticker here 500</label>
+        </div>
+        <div  class="col-md-8 col-sm-6">
+            <p class="ng-binding" style="font-size: xx-large;text-align: center;font-weight: bolder;margin-top: 40px">Medical Assessment</p>
+        </div>
+    </div>
+<!--SECTION 1: Cardiovascular System-->
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-user font-blue-hoki"></i>
+                    <span class="caption-subject font-blue-hoki bold uppercase">SECTION 1: Cardiovascular System</span>
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <label class="control-label col-lg-1 col-md-1 col-sm-1" style="margin-top: 7px">Height</label>
+                    <div class="col-md-2 col-lg-1 col-sm-2">
+                        <input type="text" class="form-control" ng-model="info.HEIGHT" ng-change="mathBMI()" ng-pattern="/^[0-9]+$/" name="HEIGHT">
+                    </div>
+                    <label class="control-label col-lg-1 col-md-1 col-sm-1" style="margin-top: 7px">Weight</label>
+                    <div class="col-md-2 col-lg-1 col-sm-2">
+                        <input type="text" class="form-control" ng-model="info.WEIGHT" ng-change="mathBMI()" ng-pattern="/^[0-9]+$/" name="WEIGHT">
+                    </div>
+                    <label class="control-label col-lg-1 col-md-1 col-sm-1" style="margin-top: 7px">BMI</label>
+                    <div class="col-md-2 col-lg-1 col-sm-2">
+                        <div class="form-control"  style="background-color: #f5f5f5">{{info.BMI| number : 1}}</div>
+                    </div>
+                </div>
+                <div ng-show="showClickedValidation">
+                    <div class="row">
+                        <div class="col-md-3 col-lg-2 col-sm-3 help-block" for="HEIGHT">
+                            <label style="color: #8b0000" ng-show="MAForm.HEIGHT.$error.pattern">Height must be number</label>
+                        </div>
+                        <div class="col-md-3 col-lg-2 col-sm-4 help-block" for="WEIGHT">
+                            <label style="color: #8b0000" ng-show="MAForm.WEIGHT.$error.pattern">Weight must be number</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 5px">
+                    <label class="control-label col-lg-1 col-md-1 col-sm-1" style="margin-top: 7px">Waist</label>
+                    <div class="col-md-2 col-lg-1 col-sm-2">
+                        <input type="text" class="form-control" ng-model="info.WAIST" ng-change="Ratio()" ng-pattern="/^[0-9]+$/" name="WAIST">
+                    </div>
+                    <label class="control-label col-lg-1 col-md-1 col-sm-1" style="margin-top: 7px">Hip</label>
+                    <div class="col-md-2 col-lg-1 col-sm-2">
+                        <input type="text" class="form-control" ng-model="info.HIP" ng-change="Ratio()" ng-pattern="/^[0-9]+$/" name="HIP">
+                    </div>
+                    <label class="control-label col-lg-1 col-md-1 col-sm-1" style="margin-top: 7px">WHR</label>
+                    <div class="col-md-2 col-lg-1 col-sm-2">
+                        <div class="form-control"  style="background-color: #f5f5f5">{{info.WHR | number : 2}}</div>
+                    </div>
+                </div>
+                <div ng-show="showClickedValidation">
+                    <div class="row">
+                        <div class="col-md-3 col-lg-2 col-sm-3 help-block" for="WAIST">
+                            <label style="color: #8b0000" ng-show="MAForm.WAIST.$error.pattern">Waist must be number</label>
+                        </div>
+                        <div class="col-md-3 col-lg-2 col-sm-3 help-block" for="HIP">
+                            <label style="color: #8b0000" ng-show="MAForm.HIP.$error.pattern">Hip must be number</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-lg-2 col-md-12 col-sm-12" style="margin-top: 10px"> BMI Classification</label>
+                    <div class="btn-group col-lg-10 col-md-12 col-sm-12">
+                        <label class="btn">
+                            <input type="radio" ng-model="info.IS_BMI" disabled  ng-value="0"> Underweight (<18.5) </label>
+                        <label class="btn">
+                            <input type="radio" ng-model="info.IS_BMI" disabled ng-value="1"> Normal (18.5-24.9) </label>
+                        <label class="btn">
+                            <input type="radio" ng-model="info.IS_BMI" disabled ng-value="2"> Overweight (25.0-29.9) </label>
+                        <label class="btn">
+                            <input type="radio" ng-model="info.IS_BMI" disabled ng-value="3"> Obese (>30)</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-4" style="margin-top: 7px">Blood Pressure (mmHg)</label>
+                    <div class="col-md-2 col-lg-1 col-sm-2">
+                        <input type="text" class="form-control" ng-model="info.BLOOD_SEC1" ng-pattern="/^[0-9]+$/" name="BLOOD_SEC1">
+                    </div>
+                    <div class="btn-group col-lg-3 col-md-4 col-sm-6">
+                            <label class="btn">
+                                <input type="radio" ng-model="info.IS_BLOOD" ng-value="1"> Normal </label>
+                            <label class="btn">
+                                <input type="radio" ng-model="info.IS_BLOOD" ng-value="0"> Abnormal </label>
+                    </div>
+                </div>
+                <div class="row"  ng-show="showClickedValidation && MAForm.BLOOD_SEC1.$error.pattern">
+                    <div class="col-lg-2 col-md-3 col-sm-4"></div>
+                    <div class="col-md-5 col-lg-5 col-sm-5" for="BLOOD_SEC1">
+                        <label style="color: #8b0000">Blood Pressure must be number</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-4" style="margin-top: 7px">Resting Heart rate (bpm)</label>
+                    <div class="col-md-2 col-lg-1 col-sm-2">
+                        <input type="text" class="form-control" ng-model="info.RESTING_HEART_RATE" ng-pattern="/^[0-9]+$/" name="RESTING_HEART_RATE">
+                    </div>
+                    <div class="btn-group col-lg-3 col-md-4 col-sm-6">
+                            <label class="btn">
+                                <input type="radio" ng-model="info.IS_RESTING_HEART_RATE" ng-value="1"> Normal </label>
+                            <label class="btn">
+                                <input type="radio" ng-model="info.IS_RESTING_HEART_RATE" ng-value="0"> Abnormal </label>
+                    </div>
+                </div>
+                <div class="row"  ng-show="showClickedValidation && MAForm.RESTING_HEART_RATE.$error.pattern">
+                    <div class="col-lg-2 col-md-3 col-sm-4"></div>
+                    <div class="col-md-5 col-lg-5 col-sm-5" for="RESTING_HEART_RATE">
+                        <label style="color: #8b0000">Resting Heart rate must be number</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3" style="margin-top: 7px">Heart Sounds</label>
+                    <div class="btn-group col-lg-3 col-md-4 col-sm-6">
+                            <label class="btn">
+                                <input type="radio" ng-model="info.HEART_SOUNDS" ng-value="1"> Normal </label>
+                            <label class="btn">
+                                <input type="radio" ng-model="info.HEART_SOUNDS" ng-value="0"> Abnormal </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3" style="margin-top: 7px">Peripheral Pulses</label>
+                    <div class="btn-group col-lg-3 col-md-4 col-sm-6">
+                            <label class="btn">
+                                <input type="radio" ng-model="info.PERIPHERAL" ng-value="1"> Normal </label>
+                            <label class="btn">
+                                <input type="radio" ng-model="info.PERIPHERAL" ng-value="0"> Abnormal </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="control-label col-lg-2 col-md-3 col-sm-3" style="margin-top: 7px">Veins & Other Vessels </label>
+                    <div class="btn-group col-lg-3 col-md-4 col-sm-6">
+                            <label class="btn">
+                                <input type="radio" ng-model="info.VEINS_OTHER" ng-value="1"> Normal </label>
+                            <label class="btn">
+                                <input type="radio" ng-model="info.VEINS_OTHER" ng-value="0"> Abnormal </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="control-label bold col-lg-12 col-md-12 col-sm-12">Examiner Comments</label>
+                    <div class="col-lg-10 col-md-10 col-sm-10">
+                        <textarea class="form-control " ng-model="info.COMMENT_SEC1"></textarea></div>
+                </div>
+            </div>
+        </div>
+<!--SECTION 2: Visual Acuity-->
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="icon-user font-blue-hoki"></i>
+                <span class="caption-subject font-blue-hoki bold uppercase">SECTION 2: Visual Acuity</span>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <p class="x-large">Candidate should be tested wearing visual aids if routinely worn</p>
+            <div class="row" style="text-align: center" >
+                <div class="col-lg-2 col-md-2 col-sm-2"></div>
+                <label class="col-lg-2 col-md-2 col-sm-2">Right</label>
+                <label class="col-lg-2 col-md-2 col-sm-3">Right corrected</label>
+                <label class="col-lg-2 col-md-2 col-sm-2">Left</label>
+                <label class="col-lg-2 col-md-2 col-sm-3">Left corrected</label>
+            </div>
+            <div class="row" style="text-align: center" >
+                <label class="col-lg-2 col-md-2 col-sm-2" style="text-align: left">Distance Vision</label>
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    <label>6/ </label><input type="text" ng-style="{'border-color': getColor(MAForm.RIGHT_DIST.$error.pattern)}" ng-model="info.RIGHT_DIST"  ng-pattern="/^[0-9]+$/" name="RIGHT_DIST" style="width: 60px;">
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-3">
+                    <label>6/ </label><input type="text" ng-style="{'border-color': getColor(MAForm.RIGHT_DIST_CORRECT.$error.pattern)}"  ng-model="info.RIGHT_DIST_CORRECT" ng-pattern="/^[0-9]+$/" name="RIGHT_DIST_CORRECT" style="width: 60px">
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    <label>6/ </label><input type="text" ng-style="{'border-color': getColor(MAForm.LEFT_DIST.$error.pattern)}"  ng-model="info.LEFT_DIST" ng-pattern="/^[0-9]+$/" name="LEFT_DIST" style="width: 60px">
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-3">
+                    <label>6/ </label><input type="text" ng-style="{'border-color': getColor(MAForm.LEFT_DIST_CORRECT.$error.pattern)}"  ng-model="info.LEFT_DIST_CORRECT" ng-pattern="/^[0-9]+$/" name="LEFT_DIST_CORRECT" style="width: 60px">
+                </div>
+            </div>
+            <div class="row" ng-show="showClickedValidation && (MAForm.RIGHT_DIST.$error.pattern || MAForm.RIGHT_DIST_CORRECT.$error.pattern || MAForm.LEFT_DIST.$error.pattern || MAForm.LEFT_DIST_CORRECT.$error.pattern)">
+                <div class="col-lg-2 col-md-2 col-sm-2"></div>
+                <div class="col-lg-4 col-md-10 col-sm-10">
+                    <label style="color: #8b0000">Distance Vision must be number</label>
+                </div>
+            </div>
+            <div class="row" style="text-align: center" >
+                <label class="col-lg-2 col-md-2 col-sm-2" style="text-align: left">Near Vision</label>
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    <label>N/ </label><input type="text" ng-model="info.RIGHT_NEAR" ng-style="{'border-color': getColor(MAForm.RIGHT_NEAR.$error.pattern)}" ng-pattern="/^[0-9]+$/" name="RIGHT_NEAR" style="width: 60px">
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-3">
+                    <label>N/ </label><input type="text" ng-model="info.RIGHT_NEAR_CORRECT" ng-style="{'border-color': getColor(MAForm.RIGHT_NEAR_CORRECT.$error.pattern)}" ng-pattern="/^[0-9]+$/" name="RIGHT_NEAR_CORRECT" style="width: 60px">
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    <label>N/ </label><input type="text" ng-model="info.LEFT_NEAR" ng-style="{'border-color': getColor(MAForm.LEFT_NEAR.$error.pattern)}" ng-pattern="/^[0-9]+$/" name="LEFT_NEAR" style="width: 60px">
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-3">
+                    <label>N/ </label><input type="text" ng-model="info.LEFT_NEAR_CORRECT" ng-style="{'border-color': getColor(MAForm.LEFT_NEAR_CORRECT.$error.pattern)}" ng-pattern="/^[0-9]+$/" name="LEFT_NEAR_CORRECT" style="width: 60px">
+                </div>
+            </div>
+            <div class="row" ng-show="showClickedValidation && (MAForm.RIGHT_NEAR.$error.pattern || MAForm.RIGHT_NEAR_CORRECT.$error.pattern || MAForm.LEFT_NEAR.$error.pattern || MAForm.LEFT_NEAR_CORRECT.$error.pattern)">
+                <div class="col-lg-2 col-md-2 col-sm-2"></div>
+                <div class="col-lg-4 col-md-10 col-sm-10">
+                    <label style="color: #8b0000">Near Vision must be number</label>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-lg-3 col-md-4 col-sm-4" style="margin-top: 7px">Colour Vision (Ishihara Test)</label>
+                <div class="btn-group col-lg-3 col-md-4 col-sm-5">
+                    <label class="btn">
+                        <input type="radio" ng-model="info.COLOUR_SEC2" ng-value="1"> Normal </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.COLOUR_SEC2" ng-value="0"> Abnormal </label>
+                </div>
+                <label class="col-lg-2 col-md-3 col-sm-3" style="margin-top: 7px">
+                    Score: <input type="number" style="width: 50px" ng-model="info.SCORE_SEC2" max="17" name="SCORE_SEC2">/17
+                </label>
+            </div>
+            <div class="row" ng-show="showClickedValidation && (MAForm.SCORE_SEC2.$invalid || MAForm.SCORE_SEC2.$error.max)">
+                <div class="col-lg-6 col-md-8 col-sm-9"></div>
+                <label class="control-label col-lg-4 col-md-4 col-sm-3" style="color: #8b0000">Score Must be in number format and less than 17</label>
+            </div>
+            <div class="row">
+                <label class="col-lg-3 col-md-4 col-sm-4" style="margin-top: 7px">Peripheral Vision</label>
+                <div class="btn-group col-lg-3 col-md-4 col-sm-5">
+                    <label class="btn">
+                        <input type="radio" ng-model="info.PERIPHERAL_SEC2" ng-value="1"> Normal </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.PERIPHERAL_SEC2" ng-value="0"> Abnormal </label>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-lg-3 col-md-4 col-sm-4" style="margin-top: 7px">Visual Aids to be worn at work?</label>
+                <div class="btn-group col-lg-3 col-md-4 col-sm-4">
+                    <label class="btn">
+                        <input type="radio" ng-model="info.VISUAL_AIDS" ng-value="1"> Yes </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.VISUAL_AIDS" ng-value="0"> No </label>
+                </div>
+            </div>
+            <div class="row">
+                <label class="control-label bold col-lg-12 col-md-12 col-sm-12">Examiner Comments</label>
+                <div class="col-lg-10 col-md-10 col-sm-10">
+                    <textarea class="form-control " ng-model="info.COMMENT_SEC2"></textarea></div>
+            </div>
+        </div>
+    </div>
+    <!--SECTION 3: Urinalysis-->
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="icon-user font-blue-hoki"></i>
+                <span class="caption-subject font-blue-hoki bold uppercase">SECTION 3: Urinalysis</span>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse"></a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <label class="col-lg-1 col-md-1 col-sm-2" style="margin-top: 7px">Protein</label>
+                <div class="btn-group col-lg-8 col-md-8 col-sm-8">
+                    <label class="btn">
+                        <input type="radio" ng-model="info.PROTEIN" ng-value="0"> Nil </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.PROTEIN" ng-value="1"> Trace </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.PROTEIN" ng-value="2"> + </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.PROTEIN" ng-value="3"> ++ </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.PROTEIN" ng-value="4"> +++ </label>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-lg-1 col-md-1 col-sm-2" style="margin-top: 7px">Glucose</label>
+                <div class="btn-group col-lg-8 col-md-8 col-sm-8">
+                    <label class="btn">
+                        <input type="radio" ng-model="info.GLUCOSE" ng-value="0"> Nil </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.GLUCOSE" ng-value="1"> Trace </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.GLUCOSE" ng-value="2"> + </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.GLUCOSE" ng-value="3"> ++ </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.GLUCOSE" ng-value="4"> +++ </label>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-lg-1 col-md-1 col-sm-2" style="margin-top: 7px">Blood</label>
+                <div class="btn-group col-lg-8 col-md-8 col-sm-8">
+                    <label class="btn">
+                        <input type="radio" ng-model="info.BLOOD" ng-value="0"> Nil </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.BLOOD" ng-value="1"> Trace </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.BLOOD" ng-value="2"> + </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.BLOOD" ng-value="3"> ++ </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.BLOOD" ng-value="4"> +++ </label>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-lg-12 col-md-12 col-sm-12">Blood Sugar Level <input type="text" ng-model="info.BLOOD_SUGAR_LEVEL" ng-pattern="/^[0-9]+$/" name="BLOOD_SUGAR_LEVEL" style="width: 60px"> mmol/L</label>
+                <div class="col-lg-12 col-md-12 col-sm-12" ng-show="showClickedValidation && MAForm.BLOOD_SUGAR_LEVEL.$error.pattern">
+                    <label style="color: #8b0000">Blood Sugar Level must be number</label>
+                </div>
+            </div>
+            <div class="row">
+                <label class="control-label bold col-lg-12 col-md-12 col-sm-12">Examiner Comments</label>
+                <div class="col-lg-10 col-md-10 col-sm-10">
+                    <textarea class="form-control " ng-model="info.COMMENT_SEC3"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--SECTION 4: Respiratory System-->
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="icon-user font-blue-hoki"></i>
+                <span class="caption-subject font-blue-hoki bold uppercase">SECTION 4: Respiratory System</span>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <label class="col-lg-3 col-md-4 col-sm-4" style="margin-top: 7px">Spirometry (see attached)</label>
+                <div class="btn-group col-lg-3 col-md-4 col-sm-5">
+                    <label class="btn">
+                        <input type="radio" ng-model="info.SPIROMETRY" ng-value="1"> Normal </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.SPIROMETRY" ng-value="0"> Abnormal </label>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-lg-3 col-md-4 col-sm-4" style="margin-top: 7px">Symmetrical Chest expansion</label>
+                <div class="btn-group col-lg-3 col-md-4 col-sm-5">
+                    <label class="btn">
+                        <input type="radio" ng-model="info.SYMMETRICAL" ng-value="1"> Normal </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.SYMMETRICAL" ng-value="0"> Abnormal </label>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-lg-3 col-md-4 col-sm-4" style="margin-top: 7px">Auscultation</label>
+                <div class="btn-group col-lg-3 col-md-4 col-sm-5">
+                    <label class="btn">
+                        <input type="radio" ng-model="info.AUSCULTATION" ng-value="1"> Normal </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.AUSCULTATION" ng-value="0"> Abnormal </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--SECTION 5: Ears, Nose, Throat & Mouth-->
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="icon-user font-blue-hoki"></i>
+                <span class="caption-subject font-blue-hoki bold uppercase">SECTION 5: Ears, Nose, Throat & Mouth</span>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <label class="col-lg-3 col-md-4 col-sm-4" style="margin-top: 7px">Ears</label>
+                <div class="btn-group col-lg-3 col-md-4 col-sm-5">
+                    <label class="btn">
+                        <input type="radio" ng-model="info.EARS" ng-value="1"> Normal </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.EARS" ng-value="0"> Abnormal </label>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-lg-3 col-md-4 col-sm-4" style="margin-top: 7px">Hearing (Refer to Audiogram)</label>
+                <div class="btn-group col-lg-3 col-md-4 col-sm-5">
+                    <label class="btn">
+                        <input type="radio" ng-model="info.HEARING" ng-value="1"> Normal </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.HEARING" ng-value="0"> Abnormal </label>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-lg-3 col-md-4 col-sm-4" style="margin-top: 7px">Nose</label>
+                <div class="btn-group col-lg-3 col-md-4 col-sm-5">
+                    <label class="btn">
+                        <input type="radio" ng-model="info.NOSE" ng-value="1"> Normal </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.NOSE" ng-value="0"> Abnormal </label>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-lg-3 col-md-4 col-sm-4" style="margin-top: 7px">Throat</label>
+                <div class="btn-group col-lg-3 col-md-4 col-sm-5">
+                    <label class="btn">
+                        <input type="radio" ng-model="info.THROAT" ng-value="1"> Normal </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.THROAT" ng-value="0"> Abnormal </label>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-lg-3 col-md-4 col-sm-4" style="margin-top: 7px">Teeth and gums</label>
+                <div class="btn-group col-lg-3 col-md-4 col-sm-5">
+                    <label class="btn">
+                        <input type="radio" ng-model="info.TEETH_GUMS" ng-value="1"> Normal </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.TEETH_GUMS" ng-value="0"> Abnormal </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--SECTION 6: Skin-->
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="icon-user font-blue-hoki"></i>
+                <span class="caption-subject font-blue-hoki bold uppercase">SECTION 6: Skin</span>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <label class="col-lg-3 col-md-5 col-sm-6" style="margin-top: 7px">
+                    Evidence of Skin Disorders
+                    </br>
+                    (Eczema/dermatitis/sun damage/other)
+                </label>
+                <div class="btn-group col-lg-2 col-md-3 col-sm-5">
+                    <label class="btn">
+                        <input type="radio" ng-model="info.SKIN" ng-value="1"> Yes </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.SKIN" ng-value="0"> No </label>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-lg-3 col-md-5 col-sm-6" style="margin-top: 7px">Evidence of drug/ alcohol abuse</label>
+                <div class="btn-group col-lg-2 col-md-3 col-sm-5">
+                    <label class="btn">
+                        <input type="radio" ng-model="info.DRUG" ng-value="1"> Yes </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.DRUG" ng-value="0"> No </label>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-lg-3 col-md-5 col-sm-6" style="margin-top: 7px">Evidence of nail biting</label>
+                <div class="btn-group col-lg-2 col-md-3 col-sm-5">
+                    <label class="btn">
+                        <input type="radio" ng-model="info.NAIL" ng-value="1"> Yes </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.NAIL" ng-value="0"> No </label>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-lg-3 col-md-5 col-sm-6" style="margin-top: 7px">Evidence of Scar (Surgical or other)</label>
+                <div class="btn-group col-lg-2 col-md-3 col-sm-5">
+                    <label class="btn">
+                        <input type="radio" ng-model="info.SCAR" ng-value="1"> Yes </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.SCAR" ng-value="0"> No </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--SECTION 7: Gastrointestinal & Urinary System-->
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="icon-user font-blue-hoki"></i>
+                <span class="caption-subject font-blue-hoki bold uppercase">SECTION 7: Gastrointestinal & Urinary System</span>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <label class="col-lg-2 col-md-3 col-sm-3" style="margin-top: 7px">Abdomen</label>
+                <div class="btn-group col-lg-3 col-md-4 col-sm-5">
+                    <label class="btn">
+                        <input type="radio" ng-model="info.ABDOMEN" ng-value="1"> Normal </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.ABDOMEN" ng-value="0"> Abnormal </label>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-lg-2 col-md-3 col-sm-3" style="margin-top: 7px">Hernial Orifices</label>
+                <div class="btn-group col-lg-3 col-md-4 col-sm-5">
+                    <label class="btn">
+                        <input type="radio" ng-model="info.HERNIAL" ng-value="1"> Normal </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.HERNIAL" ng-value="0"> Abnormal </label>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-lg-2 col-md-3 col-sm-3" style="margin-top: 7px">Liver</label>
+                <div class="btn-group col-lg-3 col-md-4 col-sm-5">
+                    <label class="btn">
+                        <input type="radio" ng-model="info.LIVER" ng-value="1"> Normal </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.LIVER" ng-value="0"> Abnormal </label>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-lg-2 col-md-3 col-sm-3" style="margin-top: 7px">Spleen</label>
+                <div class="btn-group col-lg-3 col-md-4 col-sm-5">
+                    <label class="btn">
+                        <input type="radio" ng-model="info.SPLEEN" ng-value="1"> Normal </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.SPLEEN" ng-value="0"> Abnormal </label>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-lg-2 col-md-3 col-sm-3" style="margin-top: 7px">Kidneys</label>
+                <div class="btn-group col-lg-3 col-md-4 col-sm-5">
+                    <label class="btn">
+                        <input type="radio" ng-model="info.KIDNEYS" ng-value="1"> Normal </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.KIDNEYS" ng-value="0"> Abnormal </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--SECTION 8: Nervous System-->
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="icon-user font-blue-hoki"></i>
+                <span class="caption-subject font-blue-hoki bold uppercase">SECTION 8: Nervous System</span>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <label class="col-lg-2 col-md-3 col-sm-3" style="margin-top: 7px">Balance & reflexes</label>
+                <div class="btn-group col-lg-3 col-md-4 col-sm-5">
+                    <label class="btn">
+                        <input type="radio" ng-model="info.BALANCE" ng-value="1"> Normal </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.BALANCE" ng-value="0"> Abnormal </label>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-lg-2 col-md-3 col-sm-3" style="margin-top: 7px">Coordination</label>
+                <div class="btn-group col-lg-3 col-md-4 col-sm-5">
+                    <label class="btn">
+                        <input type="radio" ng-model="info.COORDINATION" ng-value="1"> Normal </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.COORDINATION" ng-value="0"> Abnormal </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--SECTION 9: Glandular-->
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="icon-user font-blue-hoki"></i>
+                <span class="caption-subject font-blue-hoki bold uppercase">SECTION 9: Glandular</span>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <label class="col-lg-2 col-md-3 col-sm-3" style="margin-top: 7px">Lymph glands</label>
+                <div class="btn-group col-lg-3 col-md-4 col-sm-5">
+                    <label class="btn">
+                        <input type="radio" ng-model="info.LYMPH" ng-value="1"> Normal </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.LYMPH" ng-value="0"> Abnormal </label>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-lg-2 col-md-3 col-sm-3" style="margin-top: 7px">Thyroid</label>
+                <div class="btn-group col-lg-3 col-md-4 col-sm-5">
+                    <label class="btn">
+                        <input type="radio" ng-model="info.THYROID" ng-value="1"> Normal </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.THYROID" ng-value="0"> Abnormal </label>
+                </div>
+            </div>
+            <div class="row">
+                <label class="control-label bold col-lg-12 col-md-12 col-sm-12">Examiner Comments</label>
+                <div class="col-lg-10 col-md-10 col-sm-10">
+                    <textarea class="form-control " ng-model="info.COMMENT_SEC9"></textarea></div>
+            </div>
+        </div>
+    </div>
+    <!--SECTION 10: Glandular-->
+    <div class="portlet light bordered">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="icon-user font-blue-hoki"></i>
+                <span class="caption-subject font-blue-hoki bold uppercase">SECTION 10: Cardiovascular Risk Assessment</span>
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row">
+                <label class="control-label col-lg-12 col-md-12 col-sm-12 bold">
+                    AGE
+                    <input type="text" style="width: 50px" ng-model="info.AGE" disabled>
+                    If 55 years or above, proceed to ECG testing
+                </label>
+                <!--<div class="col-lg-12 col-md-12 col-sm-12" ng-show="showClickedValidation && MAForm.AGE.$error.pattern">-->
+                    <!--<label style="color: #8b0000">Age must be number</label>  ng-pattern="/^[0-9]+$/" name="AGE"-->
+                <!--</div>-->
+            </div>
+            <div class="row">
+                <label class="control-label col-lg-6 col-md-5 col-sm-5 bold" style="margin-top: 10px">Risk Factor Checklist</label>
+                <label class="control-label col-lg-6 col-md-7 col-sm-7 bold" style="margin-top: 10px">Risk Stratification</label>
+                <div class="col-lg-6 col-md-5 col-sm-5">
+                    <div class="row">
+                        <div class="col-lg-1 col-md-1 col-sm-1">
+                            <input type="checkbox" class="form-control" ng-model="info.HYPER" ng-checked="info.HYPER == 1">
+                        </div>
+                        <label class="col-lg-11 col-md-10 col-sm-10" style="margin-top: 10px">Hypertension (>150/95 mmHg)</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-1 col-md-1 col-sm-1">
+                            <input type="checkbox" class="form-control" ng-model="info.SMOKER" ng-checked="info.SMOKER == 1">
+                        </div>
+                        <label class="col-lg-11 col-md-10 col-sm-10" style="margin-top: 10px">Current Smoker</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-1 col-md-1 col-sm-1">
+                            <input type="checkbox" class="form-control" ng-model="info.KNOW" ng-checked="info.KNOW == 1">
+                        </div>
+                        <label class="col-lg-11 col-md-10 col-sm-10" style="margin-top: 10px">Know High Cholesterol</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-1 col-md-1 col-sm-1">
+                            <input type="checkbox" class="form-control" ng-model="info.SEDENTARY" ng-checked="info.SEDENTARY == 1">
+                        </div>
+                        <label class="col-lg-11 col-md-10 col-sm-10" style="margin-top: 10px">Sedentary Lifestyle</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-1 col-md-1 col-sm-1">
+                            <input type="checkbox" class="form-control" ng-model="info.FAMILY" ng-checked="info.FAMILY == 1">
+                        </div>
+                        <label class="col-lg-11 col-md-10 col-sm-10" style="margin-top: 10px">Family History of Heart Disease</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-1 col-md-1 col-sm-1">
+                            <input type="checkbox" class="form-control" ng-model="info.HISTORY" ng-checked="info.HISTORY == 1">
+                        </div>
+                        <label class="col-lg-11 col-md-10 col-sm-10" style="margin-top: 10px">History of Heart Disease</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-1 col-md-1 col-sm-1">
+                            <input type="checkbox" class="form-control" ng-model="info.OBESITY" ng-checked="info.OBESITY == 1">
+                        </div>
+                        <label class="col-lg-11 col-md-10 col-sm-10" style="margin-top: 10px">WHR >0.80 (Women) >0.90 (Men) AND/OR Obesity (BMI ≥30)</label>
+                    </div>
+                </div>
+                <div class="btn-group col-lg-6 col-md-7 col-sm-7">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-4 col-sm-4">
+                            <label class="btn  bold">
+                                <input type="radio" disabled ng-model="info.RISK" ng-value="0"> LOW
+                            </label>
+                        </div>
+                        <label class="control-label col-lg-8 col-md-8 col-sm-8" style="margin-top: 10px">
+                            ≤ 1 risk factors
+                        </label>
+                    </div>
+                    <div class="row">
+                        <div class=" col-lg-3 col-md-4 col-sm-4">
+                            <label class="btn bold" >
+                                <input type="radio" disabled ng-model="info.RISK" ng-value="1"> MEDIUM
+                            </label>
+                        </div>
+                        <label class="control-label col-lg-8 col-md-8 col-sm-8" style="margin-top: 10px">
+                            ≥ 2 risk factors </br>
+                            ≥ 3 risk factors - Proceed to ECG testing and seek medical clearance, if required.
+                        </label>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3 col-md-4 col-sm-4 ">
+                            <label class="btn bold">
+                                <input type="radio" disabled  ng-model="info.RISK" ng-value="2"> HIGH
+                            </label>
+                        </div>
+                        <label class="control-label col-lg-8 col-md-8 col-sm-8" style="margin-top: 10px">
+                            Diagnosed cardiac, pulmonary or metabolic disease <span class="bold">OR</span>  ≥ 1 sign or symptom of
+                            Coronary Artery Disease*
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-lg-7 col-md-8 col-sm-9" style="margin-top: 7px">
+                    ECG indicated (Required for individuals who are medium or high risk, OR over 55 years old)
+                </label>
+                <div class="btn-group col-lg-5 col-md-4 col-sm-3">
+                    <label class="btn">
+                        <input type="radio" ng-model="info.ECG" ng-value="1"> Yes </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.ECG" ng-value="0"> No </label>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-lg-2 col-md-3 col-sm-4" style="margin-top: 7px">ECG Result, if indicated</label>
+                <div class="btn-group col-lg-5 col-md-5 col-sm-5">
+                    <label class="btn">
+                        <input type="radio" ng-model="info.ECG_RESULT" ng-value="1"> Normal </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.ECG_RESULT" ng-value="0"> Abnormal </label>
+                </div>
+            </div>
+            <div class="row">
+                <label class="col-lg-5 col-md-6 col-sm-7" style="margin-top: 7px">GP Clearance to complete exercise testing (if required)</label>
+                <div class="btn-group col-lg-5 col-md-5 col-sm-4">
+                    <label class="btn">
+                        <input type="radio" ng-model="info.GP" ng-value="1"> Yes </label>
+                    <label class="btn">
+                        <input type="radio" ng-model="info.GP" ng-value="0"> No </label>
+                </div>
+            </div>
+            <div class="row">
+                <label class="control-label col-lg-12">
+                    *Sign and symptoms include: pain or discomfort (or angina equivalent) in the chest, neck, jaw, arms or
+                    other areas that may result from ischemia; dizziness or syncope; shortness of breath at rest or with exertion;
+                    ankle edema; palpitations or tachycardia; intermittent claudication; known heart mummer; unusual fatigue or
+                    shortness of breath with usual activities; orthopnoea or paroxysmal nocturnal dyspnoea
+                </label>
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <textarea class="form-control" rows="10" ng-model="info.COMMENT_SEC10"></textarea></div>
+            </div>
+        </div>
+    </div>
+    <!--End-->
+    <div class="portlet light bordered">
+        <div class="portlet-body">
+            <div class="row">
+                <label class="col-lg-2 col-md-2 col-sm-3 bold">Doctor's Name</label>
+                <label class="col-lg-3 col-md-4 col-sm-3">{{info.DOCTOR_NAME}}</label>
+                <label class="col-lg-2 col-md-2 col-sm-3 bold">Signature</label>
+                <label class="col-lg-3 col-md-4 col-sm-3" ng-show="info.SIGN != null && info.SIGN != '' ">
+                    <img src="" ng-src="{{info.SIGN}}" alt="" style="width: 200px;height: 150px;"/>
+                </label>
+            </div>
+            <div class="row">
+                <label class="col-lg-2 col-md-2 col-sm-3 bold">Date</label>
+                <label class="col-lg-3 col-md-4 col-sm-3">{{info.Creation_date | date : 'dd / MM / yyyy'}}</label>
+                <label class="col-lg-2 col-md-2 col-sm-3 bold">Location</label>
+                <label class="col-lg-3 col-md-4 col-sm-3"></label>
+            </div>
+        </div>
+    </div>
+</form>
+
+

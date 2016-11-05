@@ -1,0 +1,19 @@
+<div class="modal-header">
+    <h3>Custom Package</h3>
+</div>
+<div class="modal-body">
+    <div class="row" ng-repeat="ass in assList">
+        <div class="col-md-1"></div>
+        <div class="col-md-11">
+            <label>
+                <input type="checkbox" value="{{ass.id}}" id="{{ass.id}}" check-list="" selected-items-array="info.checkedAss"/>
+                {{ass.ass_name}}
+            </label>
+        </div>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <a href="javascript:;" class="btn btn-danger" ng-click='cancel()'>Cancel</a>
+    <a href="javascript:;" class="btn green" ng-click="okClick()">OK</a>
+</div>

@@ -1,0 +1,474 @@
+<form name="SA1" method="post" novalidate>
+    <div class="caption">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <button type="button"
+                        ng-disabled="SA1.$error.pattern || SA1.$error.maxlength || !infoChanged()"
+                        ng-click="submit(SA1)" class="btn green pull-right">{{isNew?"Add new":"Update"}}
+                </button>
+
+                <a href="http://testapp.redimed.com.au:3003/RedimedJavaREST/api/document/SA1/{{info.headers[0].SA_ID}}/{{info.CAL_ID}}/{{info.patient_id}}"
+
+                   target="_self"
+                   ng-disabled="SA1.$error.pattern || SA1.$error.maxlength || infoChanged() || isNew"
+                   ng-click="print()" class="btn btn-primary blue pull-right">Print PDF
+                </a>
+                <button ng-disabled="!infoChanged()" ng-click="resetForm()" class="btn btn-danger pull-right">Reset
+                </button>
+            </div>
+        </div>
+        <br/>
+    </div>
+    <!--begin header-->
+    <div class="row" ng-repeat="(hIndex,header) in info.headers">
+        <!--begin section-->
+        <div ng-repeat="(sIndex,section) in header.sections">
+            <div class="portlet box grey-cascade">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-gift"></i>{{header.SA_NAME}}
+                    </div>
+                    <div class="tools">
+                        <a href="javascript:;" class="collapse">
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="col-md-12 col-sm-12">
+                                <label class="control-label" style="text-align: left;">
+                                    Section A - Details
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="col-md-12 col-sm-12">
+                                <label class="control-label">Name:&nbsp;<span class="text-info">
+                                             {{((info.patient.First_name==null||info.patient.First_name=='')?'':info.patient.First_name) +
+                                        ((info.patient.First_name==null||info.patient.First_name=='')?'':' ') +
+                                        ((info.patient.Middle_name==null||info.patient.Middle_name=='')?'':info.patient.Middle_name) +
+                                        ((info.patient.First_name==null||info.patient.First_name=='')?'':' ') +
+                                        ((info.patient.Sur_name==null||info.patient.Sur_name=='')?'':info.patient.Sur_name)}}
+                                        </span>
+                                </label>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <label class="control-label" style="text-align: left;width: auto;">Worker ID
+                                    number:&nbsp;<span
+                                            class="text-info"></span> </label>
+                            </div>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="col-md-12 col-sm-12">
+                                <label class="control-label bold" style="text-align: left;">Section B -
+                                    Authorisation</label>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <label class="control-label bold" style="text-align: left;">I authorise the
+                                    release
+                                    of my WorkCover WA
+                                    Audiometric test results to:</label>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="col-md-3 col-sm-3"
+                                 style="text-align: left;width: auto;margin-top: 5px;">
+                                <label class="control-label">Name of
+                                    recipient:</label>
+                            </div>
+                            <div ng-class="{'has-error': SA1.RECIPIENT_NAME.$error.maxlength}">
+                                <div class="col-md-5 col-sm-7">
+                                    <input type="text" class="form-control" ng-model="info.RECIPIENT_NAME"
+                                           ng-maxlength="200"/>
+                                </div>
+                                <div class="help-block" ng-show="SA1.RECIPIENT_NAME.$error.maxlength">
+                                    <label class="control-label">Too long!</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="col-md-3 col-sm-3" style="text-align: left;width: auto;">
+                                <label class="control-label">Location
+                                    of test:</label>
+                            </div>
+                            <div class="col-md-9 col-sm-9">
+                                <label class="control-label">&nbsp;<span
+                                        class="text-info">{{info.site.Site_addr}}</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="col-md-3 col-sm-3"
+                                 style="text-align: left;width: auto;margin-top: 5px;">
+                                <label class="control-label">Date of test:</label>
+                            </div>
+                            <div class="col-md-3 col-sm-4">
+                                <input type="text" class="form-control col-md-12" name="dob"
+                                       ng-model="info.test_date"
+                                       datepicker-popup="dd/MM/yyyy"
+                                       is-open="openDOB" ng-click="openDOB = true"
+                                       datepicker-options="dateOptions3"
+                                       close-text="Close"/>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="col-md-12 col-sm-12" style="width: auto;">
+                                <label class="control-label" style="text-align: left;">Name of person conducting
+                                    test:&nbsp;<span
+                                            class="text-info"> {{info.doctor.NAME}}</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="col-md-12 col-sm-12">
+                                <label class="control-label" style="text-align: left;"><span
+                                        class="bold">Please note:</span>
+                                    The release
+                                    of audiometric test
+                                    results
+                                    is not compulsory. Signing of this form is at your discretion</label>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+
+                    <div class="panel panel-default" style="width: 900px;margin-left: 20px;">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <label class="control-label bold">Section C - Signature</label>
+                                </div>
+                            </div>
+                            <hr/>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="row">
+                                        <div class="col-md-2 col-sm-2" style="width: auto;">
+                                            <a href="javascript:;" class="btn green" ng-show="!isSignature"
+                                               ng-click="showSignature()">Sign</a>
+                                        </div>
+                                        <div class="col-md-10 col-sm-10"
+                                             ng-show="info.Signature!=null && info.Signature!='' && !isSignature">
+                                            <img src="" ng-src="{{info.Signature}}" alt=""
+                                                 style="width: 200px;height: 70px;"/>
+                                        </div>
+                                    </div>
+                                    <br/>
+
+                                    <div class="row" style="text-align: left;margin-left: 10px;"
+                                         ng-show="isSignature">
+                                        <div class="col-md-12 col-sm-12">
+                                            <canvas width="500" height="400" id="canvas"
+                                                    signature ng-model="info.Signature"
+                                                    style="background-color: #8eece8">
+                                            </canvas>
+                                        </div>
+                                        <div class="col-md-12 col-sm-12" style="margin-left: 340px;">
+                                            <div class="break-row"></div>
+                                            <div class="btn-group">
+                                                <button type="button" ng-click="cancelClick()"
+                                                        class="btn btn-danger btn-sm">
+                                                    Cancel
+                                                </button>
+                                                <button type="button" ng-click="clearClick()"
+                                                        class="btn btn-warning btn-sm">Clear
+                                                </button>
+                                                <button type="button" ng-click="okClick()"
+                                                        class="btn green btn-sm">
+                                                    Ok
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12">
+                                            <label class="control-label">Date:&nbsp;<span class="text-info">{{info.test_date|date:'dd/MM/yyyy'}}</span></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-sm-6" style="text-align: center;">
+                                    <p class="bold">Approved Audiometric Officers to
+                                        maintain
+                                        a copy of this form.</p>
+
+                                    <p class="bold">Audiologists please return completed
+                                        form
+                                        to:</p>
+
+                                    <p>Noise Induced Hearing Loss WorkCover WA</p>
+
+                                    <p>2 Bedbrook Place</p>
+
+                                    <p>SHENTON PARK WA 6008</p>
+
+                                    <p>Fax: (08) 9388 5550</p>
+
+                                    <p>For further information:</p>
+
+                                    <p>Phone: (08) 9388 5661</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="col-md-12 col-sm-12">
+                                <p class="bold">Workers' Compensation and Injury Management
+                                    Regulations 1982</p>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <p>Regulation 19F</p>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <p style="text-align: left;">(2) WorkCover WA shall,
+                                    on the written
+                                    request of
+                                    the worker tested, communicate the results of an audiometric test delivered
+                                    to it under clause 4(2) to any person specified by the worker in
+                                    that request.</p>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <p style="text-align: left;">(3) A person who receives
+                                    the results of an
+                                    audiometric test under
+                                    subregulation (2) shall ensure that the results of the test, and any
+                                    information derived from
+                                    those results are not
+                                    communicated to any person other than the worker except at the written
+                                    request of the worker
+                                    tested</p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-12 col-sm-12" style="text-align: center;">
+                                        <label class="control-label bold">Must be given to the worker
+                                            within one
+                                            month of the date of the test being completed</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-12 col-sm-12">
+                                        <label class="control-label" style="text-align: left;">
+                                            Section A - Details
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-2 col-sm-3"
+                                         style="text-align: left;width: auto;">
+                                        <label class="control-label">Name:&nbsp;<span class="text-info">
+                                             {{((info.patient.First_name==null||info.patient.First_name=='')?'':info.patient.First_name) +
+                                        ((info.patient.First_name==null||info.patient.First_name=='')?'':' ') +
+                                        ((info.patient.Middle_name==null||info.patient.Middle_name=='')?'':info.patient.Middle_name) +
+                                        ((info.patient.First_name==null||info.patient.First_name=='')?'':' ') +
+                                        ((info.patient.Sur_name==null||info.patient.Sur_name=='')?'':info.patient.Sur_name)}}
+                                        </span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-10">
+                                    <div class="col-md-12 col-sm-10"
+                                         style="text-align: left;width: auto;">
+                                        <label class="control-label">Employer name:&nbsp;<span class="text-info">{{info.company.company_name}}</span></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-2 col-sm-2"
+                                         style="text-align: left;width: auto;margin-top: 5px;">
+                                        <label class="control-label">Tester name:</label>
+                                    </div>
+                                    <div class="col-md-5 col-sm-5">
+                                        <input type="text" class="form-control" ng-model="info.tester"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-12 col-sm-12"
+                                         style="text-align: left;width: auto;">
+                                        <label class="control-label">Date:&nbsp;<span class="text-info">{{info.test_date|date:'dd/MM/yyyy'}}</span></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr/>
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-12 col-sm-12">
+                                        <label class="control-label">Here are the results of your
+                                            hearing test
+                                            and what they mean.</label>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        <label class="control-label" style="text-align: left;">What is
+                                            an audiogram? An audiogram shows
+                                            the softest level at which a person can hear a range of
+                                            different
+                                            pure tones.</label>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        <label class="control-label bold">Here is your
+                                            audiogram:</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default" style="width: 700px;margin-left: 10px;">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12" style="text-align: center;">
+                                            <div class="col-md-3 col-sm-3">
+                                                <label class="control-label">Frequence (Hz)</label>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <label class="control-label">Right Ear (dB)</label>
+                                            </div>
+                                            <div class="col-md-3 col-sm-3">
+                                                <label class="control-label">Left Ear (dB)</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--begin lines-->
+                                    <div ng-repeat="(lIndex, line) in section.lines">
+                                        <ng-form name="lineForm">
+                                            <div class="row">
+                                                <div class="col-md-12 col-sm-12">
+                                                    <div class="col-md-3 col-sm-3"
+                                                         style="text-align: center;">
+                                                        <label class="control-label">{{line.NAME}}</label>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-3">
+                                                        <div ng-class="{'has-error': lineForm.left.$error.pattern}">
+                                                            <input type="text" class="form-control"
+                                                                   name="left"
+                                                                   ng-model="info.headers[hIndex].sections[sIndex].lines[lIndex].VALUE_LEFT"
+                                                                   ng-pattern="/^(0|\-?[1-9][0-9]*)$/"
+                                                                   style="text-align: center;"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-3">
+                                                        <div ng-class="{'has-error': lineForm.right.$error.pattern}">
+                                                            <input type="text" class="form-control"
+                                                                   name="right"
+                                                                   ng-model="info.headers[hIndex].sections[sIndex].lines[lIndex].VALUE_RIGHT"
+                                                                   ng-pattern="/^(0|\-?[1-9][0-9]*)$/"
+                                                                   style="text-align: center;"/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-form>
+                                        <div class="row">
+                                            <div class="col-md-3">
+
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div ng-class="{'has-error': lineForm.left.$error.pattern}">
+                                                    <div ng-show="lineForm.left.$error.pattern">
+                                                        <label class="control-label">Required is
+                                                            number!</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div ng-class="{'has-error': lineForm.right.$error.pattern}">
+                                                    <div ng-show="lineForm.right.$error.pattern">
+                                                        <label class="control-label">Required is
+                                                            number!</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                    </div>
+                                    <!--end lines-->
+                                </div>
+                            </div>
+                            <br/>
+
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="col-md-12 col-sm-12">
+                                        <label class="control-label" style="text-align: left;">The
+                                            softest sounds that you responded to
+                                            are marked 0 for the right ear an X for the left ear. These
+                                            are your
+                                            hearing threshold levels.</label>
+                                    </div>
+                                    <div class="col-md-12 col-sm-12">
+                                        <label class="control-label">As a benchmark, normal hearing
+                                            falls
+                                            between 0 and 20 dB.</label>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4" style="width: auto;">
+                                        <label class="control-label">Degrees of hearing loss:</label>
+                                    </div>
+                                    <div class="col-md-8 col-sm-8">
+                                        <p>
+                                            Mild loss 25-45 dB
+                                        </p>
+
+                                        <p>
+                                            Moderate loss 50-65 dB
+                                        </p>
+
+                                        <p>
+                                            Severe loss 70-90 dB <br/>
+                                        </p>
+
+                                        <p>
+                                            Profound loss 95 dB+
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <p style="text-align: left;">
+                                    All the major sounds of speech are contained within the
+                                    audiogram range. The approximate volume and
+                                    pitch of various speech sounds are shown on the audiogram
+                                    above. This may give you an
+                                    indication of the sounds you hear less clearly. </p>
+                            </div>
+                            <div class="col-md-12 col-sm-12">
+                                <p style="text-align: left;">
+                                    You have three months from the date of receiving these
+                                    results to notify WorkCover WA that you wish
+                                    to
+                                    disagree with the results. </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

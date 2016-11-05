@@ -1,0 +1,878 @@
+<form name="patientForm" novalidate>
+<!-- ACTION -->
+<div class="row" style="margin-bottom: 15px;">
+    <div class="col-md-2 col-sm-3 col-xs-6" ng-if="params.permission.create !== false">
+        <button class="btn btn-sm btn-block green" ng-click="clickAction()">
+            <i class="fa fa-plus"></i>
+        </button>
+    </div>
+    <div class="col-md-2 col-sm-3 col-xs-6" ng-if="params.permission.edit !== false">
+        <button class="btn btn-sm btn-block green" ng-click="clickAction()">
+            <i class="fa fa-pencil"></i>
+        </button>
+    </div>
+    <div class="col-md-2 col-sm-2 col-xs-2 pull-right text-center" ng-if="isClose">
+        <button class="btn btn-sm btn-block red" ng-click="closePopup()">
+            <i class="fa fa-times"></i>
+        </button>
+    </div>
+</div>
+<!-- END ACTION -->
+
+<div class="row"> <!-- INFORMATION -->
+
+    <!-- TITLE -->
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <span class="field" ng-class="{'has-error': patientForm.title.$invalid && isSubmit}">
+            <label for="title">Title</label>
+            <select ng-options="title.id as title.name for title in options.titles" 
+                name="title" ng-model="modelObjectMap.Title" id="title" float-label>
+                <option value="" disabled selected>Title</option>
+            </select>
+        </span>
+    </div>
+    <!-- END TITLE -->
+
+    <!-- FIRST NAME -->
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <span class="field" ng-class="{'has-error': patientForm.fname.$invalid && isSubmit}">
+            <label for="fname">First name *</label>
+            <input required type="text" id="fname" float-label
+                name="fname" ng-model="modelObjectMap.First_name" placeholder="First Name *" />
+            <!-- ERROR -->
+            <span ng-show="patientForm.fname.$invalid && isSubmit">
+                <span class="mdt-popover above" ng-show="patientForm.fname.$error.required">
+                    First Name is required
+                </span>
+            </span>
+            <!-- ERROR -->
+        </span>
+    </div>
+    <!-- END FIRST NAME -->
+
+    <!-- SUR NAME -->
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <span class="field" ng-class="{'has-error': patientForm.sname.$invalid && isSubmit}">
+            <label for="sname">Sur name *</label>
+            <input required type="text" id="sname" 
+                name="sname" ng-model="modelObjectMap.Sur_name" placeholder="Sur Name *" float-label />
+            <!-- ERROR -->
+            <span ng-show="patientForm.sname.$invalid && isSubmit">
+                <span class="mdt-popover above" ng-show="patientForm.sname.$error.required">
+                    Sur Name is required
+                </span>
+            </span>
+            <!-- ERROR -->
+        </span>
+    </div>
+    <!-- END SURNAME NAME -->
+
+    <div class="break-row"></div>
+
+    <!-- MIDDLE NAME -->
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <span class="field">
+            <label for="mname">Middle name</label>
+            <input type="text" id="mname" 
+                name="mname" ng-model="modelObjectMap.Middle_name" placeholder="Middle Name" float-label />
+        </span>
+    </div>
+    <!-- END MIDDLE NAME -->
+    
+    <!-- KNOWN AS -->
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <span class="field">
+            <label for="knownas">Known as</label>
+            <input type="text" id="knownas" 
+                name="knownas" ng-model="modelObjectMap.Known_as" placeholder="Known As" float-label />
+        </span>
+    </div>
+    <!-- END KNOWN AS -->
+
+    <!-- BIRTHDAY -->
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <span class="field" ng-class="{'has-error': patientForm.dob.$invalid && isSubmit}">
+            <label for="dob">Date of Birth *</label>
+            <input readonly="" ui-date="{dateFormat: 'dd/mm/yy', defaultDate: '01/01/1990', changeMonth: true, changeYear: true}" 
+                id="dob" 
+                placeholder="Birthday *" 
+                name="dob" required 
+                ng-model="modelObjectMap.DOB" float-label>
+            <!-- ERROR -->
+            <span ng-show="patientForm.dob.$invalid && isSubmit">
+                <span class="mdt-popover above" ng-show="patientForm.dob.$error.required">
+                    Date of birth is required
+                </span>
+            </span>
+            <!-- ERROR -->
+        </span>
+    </div>
+    <!-- END BIRTHDAY -->
+
+    <div class="break-row"></div>
+
+    <!-- SEX -->
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <input type="checkbox" class="mdt-sex" id="sex" ng-model="modelObjectMap.Sex" ng-true-value="1" ng-false-value="0">
+        <label for="sex"></label>
+    </div>
+    <!-- END SEX -->
+    
+    <!-- EMAIL -->
+    <div class="col-md-4 col-sm-6 col-xs-12" ng-class="{'has-error': patientForm.email.$invalid && isSubmit}">
+        <span class="field">
+            <label for="email">Email *</label>
+            <input type="email" placeholder="Email" name="email" ng-model="modelObjectMap.Email"
+                class="form-control" id="email" float-label>
+            <!-- ERROR -->
+            <span ng-show="patientForm.email.$invalid && isSubmit">
+                <span class="mdt-popover above" ng-show="patientForm.email.$error.email">
+                    Email typing wrong...
+                </span>
+            </span>
+            <!-- ERROR -->
+        </span>
+    </div>
+    <!-- END EMAIL -->
+
+    <!-- OCCUPATION -->
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <span class="field">
+            <label for="occupation">Occupation</label>
+            <input type="text" placeholder="Occupation" name="occupation" ng-model="modelObjectMap.Occupation"
+                class="form-control" id="occupation" float-label>
+        </span>
+    </div>
+    <!-- END OCCUPATION -->
+
+    <div class="break-row"></div>
+
+    <!-- HOMEPHONE -->
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <span class="field">
+            <label for="hphone">Home Phone</label>
+            <input type="text" placeholder="Home Phone" name="hphone" ng-model="modelObjectMap.Home_phone"
+                class="form-control" id="hphone" float-label>
+        </span>
+    </div>
+    <!-- END HOMEPHONE -->
+
+    <!-- WORKPHONE -->
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <span class="field">
+            <label for="wphone">Work Phone</label>
+            <input type="text" placeholder="Work Phone" name="wphone" ng-model="modelObjectMap.Work_phone"
+                class="form-control" id="wphone" float-label>
+        </span>
+    </div>
+    <!-- END WORKPHONE -->
+
+    <!-- MOBILE -->
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <span class="field">
+            <label for="mobile">Mobile Phone</label>
+            <input type="text" placeholder="Mobile Phone" name="mobile" ng-model="modelObjectMap.Mobile"
+                class="form-control" id="mobile" float-label>
+        </span>
+    </div>
+    <!-- END MOBILE -->
+
+    <div class="break-row"></div>
+
+     <!-- COMPANY -->
+    <!--<div class="col-md-4 col-sm-6 col-xs-12">
+        <span class="field">
+            <button class="btn btn-small btn-block green" ng-click="clickCompany()">
+                {{selectedCompany.Company_name}}
+            </button>
+        </span>
+    </div>-->
+    <!-- END COMPANY -->
+</div> <!-- END INFORMATION -->
+
+<accordion close-others="accordion.oneAtATime">
+    <!-- ADDRESS -->
+    <accordion-group class="panel-primary" is-open="accordion.main_address">
+        <accordion-heading>
+            <i class="fa fa-bars"></i>
+            &nbspAddress Information
+        </accordion-heading>
+
+        <!-- ADDRESS 1 -->
+        <div class="col-md-6 col-sm-12 col-xs-12">
+            <span class="field">
+                <label for="address1">Address 1</label>
+                <input type="text" placeholder="Address 1" name="address1" ng-model="modelObjectMap.Address1"
+                    class="form-control" id="address1" float-label>
+            </span>
+        </div>
+        <!-- END ADDRESS 1 -->
+
+        <!-- ADDRESS 2 -->
+        <div class="col-md-6 col-sm-12 col-xs-12">
+            <span class="field">
+                <label for="address2">Address 2</label>
+                <input type="text" placeholder="Address 2" name="address2" ng-model="modelObjectMap.Address2"
+                    class="form-control" id="address2" float-label>
+            </span>
+        </div>
+        <!-- END ADDRESS 2 -->
+
+        <div class="break-row"></div>
+
+        <!-- SURBURB -->
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="surburb">Surburb</label>
+                <input type="text" placeholder="Surburb" name="surburb" ng-model="modelObjectMap.Surburb"
+                    class="form-control" id="surburb" float-label>
+            </span>
+        </div>
+        <!-- END SURBURB -->
+
+        <!-- POST CODE -->
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="postcode">Post Code</label>
+                <input type="text" placeholder="Post code" name="postcode" ng-model="modelObjectMap.Post_code"
+                    class="form-control" id="postcode" float-label>
+            </span>
+        </div>
+        <!-- END POST CODE -->
+
+        <div class="break-row"></div>
+
+        <!-- COUNTRY -->
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="country">Country</label>
+                <select ng-options="country.Country_name as country.Country_name for country in options.countries" 
+                    name="country" ng-model="modelObjectMap.Country" id="country" float-label ng-change="loadState()">
+                    <option value="" disabled selected>Country</option>
+                </select>
+            </span>
+        </div>
+        <!-- END COUNTRY -->
+
+        <!-- STATE -->
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="state">State</label>
+                <select ng-options="state.id as state.State for state in options.states" 
+                    name="state" ng-model="modelObjectMap.State" id="state" float-label>
+                    <option value="" disabled selected>State</option>
+                </select>
+            </span>
+        </div>
+        <!-- END STATE -->
+
+    </accordion-group>
+    <!-- END ADDRESS -->
+
+    <!-- MEDICARE INFORMATION -->
+    <accordion-group class="panel-danger" is-open="accordion.main_medicare" is-disabled="accordion.main_medicare_disabled">
+        <accordion-heading>
+            <i class="fa fa-bars"></i>
+            &nbspMedicare Information
+            &nbsp<button class="btn btn-sm green" ng-click="verifiedMedicare()">Verify</button>
+        </accordion-heading>
+
+        <!-- REF -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field" ng-class="{'has-error': patientForm.ref.$invalid && isSubmit}">
+                <label for="ref">Ref No</label>
+                <input type="number" placeholder="Ref" name="ref" 
+                    ng-model="modelObjectMap.Ref" min="0"
+                    class="form-control" id="ref" float-label>
+                <!-- ERROR -->
+                <span ng-show="patientForm.ref.$invalid && isSubmit">
+                    <span class="mdt-popover above" ng-show="patientForm.ref.$error.number">
+                        Ref must be number
+                    </span>
+                    <span class="mdt-popover above" ng-show="patientForm.ref.$error.min">
+                        Ref must be large than zero
+                    </span>
+                </span>
+                <!-- ERROR -->
+            </span>
+        </div>
+        <!-- END REF -->
+
+        <!-- MEDICARE NO -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field" ng-class="{'has-error': patientForm.medicareno.$invalid && isSubmit}">
+                <label for="medicareno">Medicare No {{isMedicare}}</label>
+                <input placeholder="Medicare Number" name="medicareno" maxlength="10" 
+                    ng-model="modelObjectMap.Medicare_no" min="0"
+                    class="form-control" id="medicareno" float-label ng-readonly="isMedicare===true">
+                <!-- ERROR -->
+                <span ng-show="patientForm.medicareno.$invalid && isSubmit">
+                    <span class="mdt-popover above" ng-show="patientForm.medicareno.$error.number">
+                        Medicare No must be number
+                    </span>
+                    <span class="mdt-popover above" ng-show="patientForm.medicareno.$error.min">
+                        Medicare No must be large than zero
+                    </span>
+                </span>
+                <!-- ERROR -->
+            </span>
+        </div>
+        <!-- END MEDICARE NO -->
+
+        <!-- MEDICARE EXP -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="mediexp">Medicare Expire</label>
+                <input readonly="" ui-date="{dateFormat: 'dd/mm/yy'}" id="mediexp" placeholder="Medicare Expire" 
+                    name="mediexp"
+                    ng-model="modelObjectMap.Exp_medicare" float-label>
+            </span>
+        </div>
+        <!-- END MEDICARE EXP -->
+
+        <div class="break-row"></div>
+
+        <p class="text-danger" ng-show="isMedicare===false">Medicare Number is not verified</p>
+        <p class="text-danger" ng-show="isMedicare===true">Medicare Number is verified</p>
+    </accordion-group>
+    <!-- END MEDICARE INFORMATION -->
+
+    <!-- MAIN INFORMATION -->
+    <accordion-group class="panel-primary" is-open="accordion.main_one">
+        <accordion-heading>
+            <i class="fa fa-bars"></i>
+            &nbspSub Information
+        </accordion-heading>
+        <!-- PHONE EXT -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="morephone">More Phone</label>
+                <input type="text" placeholder="More Phone" name="morephone" ng-model="modelObjectMap.Phone_ext"
+                    class="form-control" id="morephone" float-label>
+            </span>
+        </div>
+        <!-- END PHONE EXT -->
+        <!-- NO SMS -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <input type="checkbox" name="nosms" id="nosms" class="mdt-checkbox" ng-model="modelObjectMap.No_SMS"
+                ng-true-value="1" ng-false-value="0">
+            <label for="nosms">SMS</label>
+        </div>
+        <!-- END NOSMS -->
+        <!-- IS LOCK -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <input type="checkbox" name="islock" id="islock" class="mdt-checkbox" ng-model="modelObjectMap.isLock"
+                ng-true-value="1" ng-false-value="0">
+            <label for="islock">Is Lock</label>
+        </div>
+        <!-- END IS LOCK -->
+        <div class="break-row"></div>
+
+        <!-- ACCOUNT TYPE -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="acctype">Account Type</label>
+                <select ng-options="type.Account_id as type.Account_name for type in options.account_types" 
+                    name="acctype" ng-model="modelObjectMap.Account_type" id="acctype" float-label>
+                    <option value="" disabled selected>Account Type</option>
+                </select>
+            </span>
+        </div>
+        <!-- END ACCOUNT TYPE -->
+
+        <!-- ACCOUNT HOLDER -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="accholder">Account Holder</label>
+                <input type="text" placeholder="Account Holder" name="accholder" ng-model="modelObjectMap.Account_holder"
+                    class="form-control" id="accholder" float-label>
+            </span>
+        </div>
+        <!-- END ACCOUNT HOLDER -->
+
+        <!-- ACCOUNT SEFT -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field" ng-class="{'has-error': patientForm.accseft.$invalid && isSubmit}">
+                <label for="accseft">Account Seft</label>
+                <input type="number" placeholder="Account Seft" name="accseft" 
+                    ng-model="modelObjectMap.Account_Seft" min="0"
+                    class="form-control" id="accseft" float-label>
+                <!-- ERROR -->
+                <span ng-show="patientForm.accseft.$invalid && isSubmit">
+                    <span class="mdt-popover above" ng-show="patientForm.accseft.$error.number">
+                        Account Seft must be number
+                    </span>
+                    <span class="mdt-popover above" ng-show="patientForm.accseft.$error.min">
+                        Account Seft must be large than zero
+                    </span>
+                </span>
+                <!-- ERROR -->
+            </span>
+        </div>
+        <!-- END ACCOUNT SEFT -->
+
+        <div class="break-row"></div>
+
+        <!-- PRIVATE FUND -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="privatefund">Private Fund</label>
+                <select ng-options="type.PF_id as type.Fund_name for type in options.private_types" 
+                    name="privatefund" ng-model="modelObjectMap.Private_fund_id" id="privatefund" float-label>
+                    <option value="" disabled selected>Private Fund</option>
+                </select>
+            </span>
+        </div>
+        <!-- END PRIVATE FUND -->
+
+        <!-- MEMBERSHIP NO -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field" ng-class="{'has-error': patientForm.memberno.$invalid && isSubmit}">
+                <label for="memberno">Membership No</label>
+                <input type="number" placeholder="Membership Number" name="memberno" 
+                    ng-model="modelObjectMap.MemberShip_no" min="0"
+                    class="form-control" id="memberno" float-label>
+                <!-- ERROR -->
+                <span ng-show="patientForm.memberno.$invalid && isSubmit">
+                    <span class="mdt-popover above" ng-show="patientForm.memberno.$error.number">
+                        Membership No must be number
+                    </span>
+                    <span class="mdt-popover above" ng-show="patientForm.memberno.$error.min">
+                        Membership No must be large than zero
+                    </span>
+                </span>
+                <!-- ERROR -->
+            </span>
+        </div>
+        <!-- END MEMBERSHIP NO -->
+
+        <!-- UPI -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field" ng-class="{'has-error': patientForm.upi.$invalid && isSubmit}">
+                <label for="upi">UPI</label>
+                <input type="number" placeholder="UPI" name="upi" 
+                    ng-model="modelObjectMap.UPI" min="0"
+                    class="form-control" id="upi" float-label>
+                <!-- ERROR -->
+                <span ng-show="patientForm.upi.$invalid && isSubmit">
+                    <span class="mdt-popover above" ng-show="patientForm.upi.$error.number">
+                        UPI must be number
+                    </span>
+                    <span class="mdt-popover above" ng-show="patientForm.upi.$error.min">
+                        UPI must be large than zero
+                    </span>
+                </span>
+                <!-- ERROR -->
+            </span>
+        </div>
+        <!-- END UPI -->
+
+        <div class="break-row"></div>
+
+        <!-- HCC PENSION NO -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field" ng-class="{'has-error': patientForm.hccno.$invalid && isSubmit}">
+                <label for="hccno">HCC Pension No</label>
+                <input type="number" placeholder="HCC Pension Number" name="hccno" 
+                    ng-model="modelObjectMap.HCC_Pension_No" min="0"
+                    class="form-control" id="hccno" float-label>
+                <!-- ERROR -->
+                <span ng-show="patientForm.hccno.$invalid && isSubmit">
+                    <span class="mdt-popover above" ng-show="patientForm.hccno.$error.number">
+                        HCC Pension No must be number
+                    </span>
+                    <span class="mdt-popover above" ng-show="patientForm.hccno.$error.min">
+                        HCC Pension No must be large than zero
+                    </span>
+                </span>
+                <!-- ERROR -->
+            </span>
+        </div>
+        <!-- END HCC PENSION NO -->
+
+        <!-- PENSION EXP -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="pensionexp">Pension Expire</label>
+                <input readonly="" ui-date="{dateFormat: 'dd/mm/yy'}" id="pensionexp" placeholder="Pension Expire" 
+                    name="pensionexp"
+                    ng-model="modelObjectMap.Exp_pension" float-label>
+            </span>
+        </div>
+        <!-- END PENSION EXP -->
+
+        <!-- DVA NO -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field" ng-class="{'has-error': patientForm.dvano.$invalid && isSubmit}">
+                <label for="dvano">DVA No</label>
+                <input type="number" placeholder="DVA Number" name="dvano" 
+                    ng-model="modelObjectMap.DVA_No" min="0"
+                    class="form-control" id="dvano" float-label>
+                <!-- ERROR -->
+                <span ng-show="patientForm.dvano.$invalid && isSubmit">
+                    <span class="mdt-popover above" ng-show="patientForm.dvano.$error.number">
+                        DVA No must be number
+                    </span>
+                    <span class="mdt-popover above" ng-show="patientForm.dvano.$error.min">
+                        DVA No must be large than zero
+                    </span>
+                </span>
+                <!-- ERROR -->
+            </span>
+        </div>
+        <!-- END DVA NO -->
+
+        <!-- BALANCE -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field" ng-class="{'has-error': patientForm.balance.$invalid && isSubmit}">
+                <label for="balance">Balance</label>
+                <input type="number" placeholder="Balance" name="balance" 
+                    ng-model="modelObjectMap.Balance" min="0"
+                    class="form-control" id="balance" float-label>
+                <!-- ERROR -->
+                <span ng-show="patientForm.balance.$invalid && isSubmit">
+                    <span class="mdt-popover above" ng-show="patientForm.balance.$error.number">
+                        Balance must be number
+                    </span>
+                    <span class="mdt-popover above" ng-show="patientForm.balance.$error.min">
+                        Balance must be large than zero
+                    </span>
+                </span>
+                <!-- ERROR -->
+            </span>
+        </div>
+        <!-- END BALANCE -->
+
+        <!-- PAYS GAP ONLY -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field" ng-class="{'has-error': patientForm.paygaps.$invalid && isSubmit}">
+                <label for="paygaps">Pays Gap Only</label>
+                <input type="number" placeholder="Pays Gap Only" name="paygaps" 
+                    ng-model="modelObjectMap.Pays_Gap_Only" min="0"
+                    class="form-control" id="paygaps" float-label>
+                <!-- ERROR -->
+                <span ng-show="patientForm.paygaps.$invalid && isSubmit">
+                    <span class="mdt-popover above" ng-show="patientForm.paygaps.$error.number">
+                        Pay Gaps Only must be number
+                    </span>
+                    <span class="mdt-popover above" ng-show="patientForm.paygaps.$error.min">
+                        Pay Gaps Only must be large than zero
+                    </span>
+                </span>
+                <!-- ERROR -->
+            </span>
+        </div>
+        <!-- END PAYS GAP ONLY -->
+        <!-- IS ENABLE -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <input type="checkbox" name="isenable" id="isenable" class="mdt-checkbox" 
+                ng-model="modelObjectMap.Isenable" ng-true-value="1" ng-false-value="0">
+            <label for="isenable">Is Enable</label>
+        </div>
+        <!-- END IS ENABLE -->
+
+        <div class="break-row"></div>
+
+        <!-- PASSPORT -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="passport">Passport</label>
+                <input type="text" placeholder="Passport" name="passport" ng-model="modelObjectMap.passport"
+                    class="form-control" id="passport" float-label>
+            </span>
+        </div>
+        <!-- END PASSPORT -->
+
+        <!-- DRIVER LICENSE -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="driver_license">Driver License</label>
+                <input type="text" placeholder="Driver License" name="driver_license" ng-model="modelObjectMap.driver_license"
+                    class="form-control" id="driver_license" float-label>
+            </span>
+        </div>
+        <!-- END DRIVER LICENSE -->
+
+    </accordion-group>
+    <!-- END SUB INFORMATION -->
+
+    <!-- SELFT INFORMATION -->
+    <accordion-group class="panel-danger" is-open="accordion.main_two">
+        <accordion-heading>
+            <i class="fa fa-bars"></i>
+            &nbspMore Sub Information
+        </accordion-heading>
+        <!-- PARTNER NAME -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="partnername">Partner Name</label>
+                <input type="text" placeholder="Partner Name" name="partnername" ng-model="modelObjectMap.Partner_name"
+                    class="form-control" id="partnername" float-label>
+            </span>
+        </div>
+        <!-- END PARTNER NAME -->
+        <!-- PARTNER DOB -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="partnerdob">Partner's Date of Birth</label>
+                <input type="birthday" readonly="" ui-date="{dateFormat: 'dd/mm/yy'}" id="partnerdob" placeholder="Partner's Date of Birth" 
+                    name="partnerdob"
+                    ng-model="modelObjectMap.Partner_DOB" float-label>
+            </span>
+        </div>
+        <!-- END PARTNER DOB -->
+        <!-- PARTNER OCCUPATION -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="partnerocc">Partner Occupation</label>
+                <input type="text" placeholder="Partner Occupation" name="partnerocc" 
+                    ng-model="modelObjectMap.Partner_Occupation"
+                    class="form-control" id="partnerocc" float-label>
+            </span>
+        </div>
+        <!-- END PARTNER OCCUPATION -->
+        <div class="break-row"></div>
+        <!-- NOK EMERGE CONTACT -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="nokemecontact">NOK Emerge Contact</label>
+                <input type="text" placeholder="NOK Emerge Contact" name="nokemecontact" 
+                    ng-model="modelObjectMap.NOK_Emerg_Contact"
+                    class="form-control" id="nokemecontact" float-label>
+            </span>
+        </div>
+        <!-- END NOK EMERGE CONTACT -->
+        <!-- NOK PHONE -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="nokphone">NOK Phone</label>
+                <input type="text" placeholder="NOK Phone" name="nokphone" 
+                    ng-model="modelObjectMap.NOK_Phone"
+                    class="form-control" id="nokphone" float-label>
+            </span>
+        </div>
+        <!-- END NOK PHONE -->
+        <!-- CLINIC -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="clinic">Clinic</label>
+                <input type="text" placeholder="Clinic" name="clinic" 
+                    ng-model="modelObjectMap.Clinic"
+                    class="form-control" id="clinic" float-label>
+            </span>
+        </div>
+        <!-- END CLINIC -->
+        <div class="break-row"></div>
+        <!-- ALIAS FIRST NAME -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="aliasfname">Alias First Name</label>
+                <input type="text" placeholder="Alias First Name" name="aliasfname" 
+                    ng-model="modelObjectMap.Alias_First_name"
+                    class="form-control" id="aliasfname" float-label>
+            </span>
+        </div>
+        <!-- END ALIAS FIRST NAME -->
+        <!-- ALIAS SUR NAME -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="aliassname">Alias Sur Name</label>
+                <input type="text" placeholder="Alias Sur Name" name="aliassname" 
+                    ng-model="modelObjectMap.Alias_Sur_name"
+                    class="form-control" id="aliassname" float-label>
+            </span>
+        </div>
+        <!-- END ALIAS SUR NAME -->
+        <!-- SPECIALTY -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="specialty">Specialty</label>
+                <input type="text" placeholder="Specialty" name="specialty" 
+                    ng-model="modelObjectMap.Specialty"
+                    class="form-control" id="specialty" float-label>
+            </span>
+        </div>
+        <!-- END SPECIALTY -->
+        <div class="break-row"></div>
+        <!-- GP FIRST NAME -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="gpfname">GP First Name</label>
+                <input type="text" placeholder="GP First Name" name="gpfname" 
+                    ng-model="modelObjectMap.GP_First_name"
+                    class="form-control" id="gpfname" float-label>
+            </span>
+        </div>
+        <!-- END GP FIRST NAME -->
+        <!-- GP SUR NAME -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="gpsname">GP Sur Name</label>
+                <input type="text" placeholder="GP Sur Name" name="gpsname" 
+                    ng-model="modelObjectMap.GP_Sur_name"
+                    class="form-control" id="gpsname" float-label>
+            </span>
+        </div>
+        <!-- END GP SUR NAME -->
+        <!-- MEMO -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="memo">Memo</label>
+                <input type="text" placeholder="Memo" name="memo" 
+                    ng-model="modelObjectMap.Memo"
+                    class="form-control" id="memo" float-label>
+            </span>
+        </div>
+        <!-- END MEMO -->
+        <div class="break-row"></div>
+        <!-- USUAL PROVIDER -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="usual_provider">Usual Provider</label>
+                <select ng-options="type.Provider_types_id as type.Provider_types_name for type in options.provider_types" 
+                    name="usual_provider" ng-model="modelObjectMap.Usual_provider" id="usual_provider" float-label>
+                    <option value="" disabled selected>Usual Provider</option>
+                </select>
+            </span>
+        </div>
+        <!-- END USUAL PROVIDER -->
+        <!-- REFERRAL SOURCE -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="referral_source">Referral Source</label>
+                <select ng-options="type.RS_id as type.RS_name for type in options.referral_types" 
+                    name="referral_source" ng-model="modelObjectMap.Referral_source" id="referral_source" float-label>
+                    <option value="" disabled selected>Referral Source</option>
+                </select>
+            </span>
+        </div>
+        <!-- END REFERRAL SOURCE -->
+        <!-- MARIAL STATUS -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="marial_status">Marial Status</label>
+                <select ng-options="type.Marial_status as type.Marial_status for type in options.marial_status_types" 
+                    name="marial_status" ng-model="modelObjectMap.Marial_Status" id="marial_status" float-label>
+                    <option value="" disabled selected>Marial Status</option>
+                </select>
+            </span>
+        </div>
+        <!-- END MARIAL STATUS -->
+        <div class="break-row"></div>
+
+        <!-- DIABETIC -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <input type="checkbox" name="diabetic" id="diabetic" class="mdt-checkbox" 
+                ng-model="modelObjectMap.Diabetic" ng-true-value="1" ng-false-value="0">
+            <label for="diabetic">Diabetic</label>
+        </div>
+        <!-- END DIABETIC -->
+
+        <!-- INACTIVE -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <input type="checkbox" name="inactive" id="inactive" class="mdt-checkbox" 
+                ng-model="modelObjectMap.Inactive" ng-true-value="1" ng-false-value="0">
+            <label for="inactive">Inactive</label>
+        </div>
+        <!-- END INACTIVE -->
+
+        <!-- DECEASED -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <input type="checkbox" name="deceased" id="deceased" class="mdt-checkbox" 
+                ng-model="modelObjectMap.Deceased" ng-true-value="1" ng-false-value="0">
+            <label for="deceased">Deceased</label>
+        </div>
+        <!-- END DECEASED -->
+
+        <div class="break-row" style="margin-bottom: 10px;"></div>
+
+        <!-- UR NO -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field" ng-class="{'has-error': patientForm.urno.$invalid && isSubmit}">
+                <label for="urno">UR No</label>
+                <input type="number" placeholder="UR No" name="urno" 
+                    ng-model="modelObjectMap.UR_no" min="0"
+                    class="form-control" id="urno" float-label>
+                <!-- ERROR -->
+                <span ng-show="patientForm.urno.$invalid && isSubmit">
+                    <span class="mdt-popover above" ng-show="patientForm.urno.$error.number">
+                        UR No must be number
+                    </span>
+                    <span class="mdt-popover above" ng-show="patientForm.urno.$error.min">
+                        UR No must be large than zero
+                    </span>
+                </span>
+                <!-- ERROR -->
+            </span>
+        </div>
+        <!-- END UR NO -->
+
+        <!-- CUSTOM -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="custom">Custom</label>
+                <input type="text" placeholder="Custom" name="custom" 
+                    ng-model="modelObjectMap.Custom"
+                    class="form-control" id="custom" float-label>
+            </span>
+        </div>
+        <!-- END CUSTOM -->
+
+        <!-- CULTURE -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="culture">Culture</label>
+                <select ng-options="type.CULTURE_id as type.CULTURE_name for type in options.culture_types" 
+                    name="culture" ng-model="modelObjectMap.Culture_id" id="culture" float-label>
+                    <option value="" disabled selected>Culture</option>
+                </select>
+            </span>
+        </div>
+        <!-- END CULTURE -->
+
+        <div class="break-row"></div>
+
+        <!-- LANGUAGE -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="language">Language</label>
+                <select ng-options="type.language_id as type.name for type in options.language_types" 
+                    name="language" ng-model="modelObjectMap.Language_id" id="language" float-label>
+                    <option value="" disabled selected>Language</option>
+                </select>
+            </span>
+        </div>
+        <!-- END LANGUAGE -->
+
+        <!-- FEE TYPE -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <span class="field">
+                <label for="fee_type">Fee Type</label>
+                <input type="text" placeholder="Fee Type" name="fee_type" 
+                    ng-model="modelObjectMap.Fee_type"
+                    class="form-control" id="fee_type" float-label>
+            </span>
+        </div>
+        <!-- END FEE TYPE -->
+
+        <!-- GRADUATE STATUS -->
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <input type="checkbox" name="graduate" id="graduate" class="mdt-checkbox" 
+                ng-model="modelObjectMap.Gradudate_status" ng-true-value="1" ng-false-value="0">
+            <label for="graduate">Graduate ?</label>
+        </div>
+        <!-- END GRADUATE STATUS -->
+
+        <div class="break-row"></div>
+
+    </accordion>
+    <!-- END SELFT INFORMATION -->
+</accordion>
+
+<!-- COMPANY MODULE -->
+<div class="mdt-search" id="PatientDetailCompany" style="width: 75%; z-index: 99999">
+    <company-search options="options" is-close="PatientDetailCompany" click-row="selectCompany(row)"></company-search>
+</div>
+<!-- END COMPANY MODULE -->
+
+</form>

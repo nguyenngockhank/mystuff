@@ -1,0 +1,323 @@
+<form name="patientForm" novalidate>
+<!-- BOOKING INFO -->
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <b>APPOINTMENT INFORMATION</b>
+    </div>
+    <div class="panel-body">
+
+        <div class="break-row"></div>
+
+        <span ng-if="step === 1">
+
+            <!-- DOCTOR NAME -->
+            <div class="form-group">
+                <label class="control-label col-md-2 col-sm-3 col-xs-6">
+                    Doctor
+                </label>
+                <div class="col-md-4 col-sm-3 col-xs-6">
+                    <p class="form-control-static">{{modelObjectBookingMap.DOCTOR_NAME}}</p>
+                </div>
+            </div>
+            <!-- END DOCTOR NAME -->
+            <!-- DATE BOOKING -->
+            <div class="form-group">
+                <label class="control-label col-md-2 col-sm-3 col-xs-6">
+                    Date Booking
+                </label>
+                <div class="col-md-4 col-sm-3 col-xs-6">
+                    <p class="form-control-static">{{bookingPatientInfo.datepicker}}</p>
+                </div>
+            </div>
+            <!-- END DATE BOOKING -->
+
+            <div class="break-row"></div>
+
+            <!-- SITE -->
+            <div class="form-group">
+                <label class="control-label col-md-2 col-sm-3 col-xs-6">
+                    Site Name
+                </label>
+                <div class="col-md-4 col-sm-3 col-xs-6">
+                    <p class="form-control-static">{{modelObjectBookingMap.SITE_NAME}}</p>
+                </div>
+            </div>
+            <!-- END SITE -->
+
+            <!-- CILINICAL DEPARTMENT -->
+            <div class="form-group">
+                <label class="control-label col-md-2 col-sm-3 col-xs-6">
+                    Clinical Department
+                </label>
+                <div class="col-md-4 col-sm-3 col-xs-6">
+                    <p class="form-control-static">{{modelObjectBookingMap.CLINICAL_DEPT_NAME}}</p>
+                </div>
+            </div>
+            <!-- END CLINICAL DEPARTMENT -->
+
+            <div class="break-row"></div>
+
+            <!-- SERVICE -->
+            <div class="form-group">
+                <label class="control-label col-md-2 col-sm-3 col-xs-6">
+                    Service
+                </label>
+                <div class="col-md-4 col-sm-3 col-xs-6">
+                    <select class="form-control input-sm" ng-model="modelObjectBookingMap.SERVICE_ID"
+                        ng-options="service.SERVICE_ID as service.SERVICE_NAME for service in options.services">
+                    </select>
+                </div>
+            </div>
+            <!-- END SERVICE -->
+
+            <!-- TIME -->
+            <div class="form-group">
+                <label class="control-label col-md-2 col-sm-3 col-xs-6">
+                    Time
+                </label>
+                <div class="col-md-4 col-sm-3 col-xs-6">
+                    <p class="form-control-static">
+                        {{bookingPatientInfo.FROM_TIME}} - {{bookingPatientInfo.TO_TIME}}
+                    </p>
+                </div>
+            </div>
+            <!-- END TIME -->
+
+            <div class="break-row"></div>
+
+            <!-- ACCOUNT TYPE -->
+            <div class="form-group">
+                <label class="control-label col-md-2 col-sm-3 col-xs-6">
+                    Account Type
+                </label>
+                <div class="col-md-4 col-sm-3 col-xs-6">
+                    <select class="form-control input-sm" ng-model="modelObjectBookingMap.ACC_TYPE"
+                        ng-options="acc_type.code as acc_type.name for acc_type in options.acc_types">
+                    </select>
+                </div>
+            </div>
+            <!-- END ACCOUNT TYPE -->
+
+            <!-- APP TYPE -->
+            <div class="form-group">
+                <label class="control-label col-md-2 col-sm-3 col-xs-6">
+                    App Type
+                </label>
+                <div class="col-md-4 col-sm-3 col-xs-6">
+                    <select class="form-control input-sm" ng-model="modelObjectBookingMap.APP_TYPE"
+                        ng-options="app_type.code as app_type.name for app_type in options.app_types">
+                    </select>
+                </div>
+            </div>
+            <!-- END APP TYPE -->
+
+            <div class="break-row"></div>
+
+            <!-- STATUS -->
+            <div class="form-group">
+                <label class="control-label col-md-2 col-sm-3 col-xs-6">
+                    Status
+                </label>
+                <div class="col-md-4 col-sm-3 col-xs-6">
+                    <input type="text" class="form-control input-sm" ng-model="modelObjectBookingMap.STATUS">
+                </div>
+            </div>
+            <!-- END STATUS -->
+
+            <!-- BILL TO -->
+            <div class="form-group">
+                <label class="control-label col-md-2 col-sm-3 col-xs-6">
+                    Bill to
+                </label>
+                <div class="col-md-4 col-sm-3 col-xs-6">
+                    <label class="radio-inline">
+                        <input type="radio" ng-model="modelObjectBookingMap.bill_to" value="1"> Self
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" ng-model="modelObjectBookingMap.bill_to" value="2"> Employer
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" ng-model="modelObjectBookingMap.bill_to" value="3"> Insurer
+                    </label>
+                </div>
+            </div>
+            <!-- END BILL TO -->
+
+            <div class="break-row"></div>
+
+            <!-- ARRANGE TIME -->
+            <div class="form-group">
+                <label class="control-label col-md-2 col-sm-3 col-xs-6">
+                    Arrange Time
+                </label>
+                <div class="col-md-4 col-sm-3 col-xs-6">
+                    <input custom-timepicker ng-model="modelObjectBookingMap.ARR_TIME" 
+                        class="form-control input-sm" placeholder="Arrange Time">  
+                </div>
+            </div>
+            <!-- END ARRANGE TIME -->
+
+            <!-- ATTEND TIME -->
+            <div class="form-group">
+                <label class="control-label col-md-2 col-sm-3 col-xs-6">
+                    Attend Time
+                </label>
+                <div class="col-md-4 col-sm-3 col-xs-6">
+                    <input custom-timepicker ng-model="modelObjectBookingMap.ATTEND_TIME" 
+                        class="form-control input-sm" placeholder="Attend Time">  
+                </div>
+            </div>
+            <!-- END ATTEND TIME -->
+
+            <div class="break-row"></div>
+
+            <!-- NOTES -->
+            <div class="form-group">
+                <label class="control-label col-md-2 col-sm-3 col-xs-6">
+                    Notes
+                </label>
+                <div class="col-md-4 col-sm-3 col-xs-6">
+                    <input type="text" ng-model="modelObjectBookingMap.NOTES" class="form-control input-sm"
+                        placeholder="Notes">
+                </div>
+            </div>
+            <!-- END NOTES -->
+
+        </span> <!-- END STEP 1 -->
+
+        <span ng-if="step === 2">
+            <!-- MODE -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="btn-group btn-group-justified">
+                        <a class="btn" ng-class="{'btn-default': mode!='search', 'green': mode=='search'}" 
+                            ng-click="mode='search'">
+                            Search Patient
+                        </a>
+                        <a class="btn" ng-class="{'btn-default': mode!='add', 'green': mode=='add'}" 
+                            ng-click="mode='add'">
+                            Add Patient
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- END MODE -->
+            <div class="break-row"></div>
+            <!-- SEARCH -->
+            <div class="row">
+                <div class="col-md-12" ng-show="mode === 'search'">
+                    <!-- PAGINATION -->
+                    <div class="pull-left">
+                        <pagination boundary-links="true" total-items="list.count" ng-model="search.currentPage" 
+                                    class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" 
+                                    items-per-page="search.limit" max-size="search.maxSize" ng-change="setPage()"></pagination>
+                    </div>
+                    <div class="pull-right" style=" padding-top: 15px;">
+                        <b>Totals of Patients </b> {{list.count}} <b> Display </b>
+                        <select ng-model="search.limit" ng-options="row.code as row.code for row in pagingIndex" ng-change="loadList()">
+                        </select>
+                    </div>
+                    <!-- END PAGINATION -->
+                    <table class="table table-responsive table-hover">
+                        <thead>
+                            <tr>
+
+                                <th>First Name</th>
+                                <th>Sur Name</th>
+                                <th>Sex</th>
+                                <th>DOB</th>
+                                <th>Mobile</th>
+                            </tr>
+                            <tr>
+                                <!-- SEARCH -->
+
+                                <td>
+                                    <input class="form-control input-sm" type="text" placeholder="First name" ng-model="search.data.First_name" ng-change="loadList()">
+                                </td>
+
+                                <td>
+                                    <input class="form-control input-sm" type="text" placeholder="Sur name" ng-model="search.data.Sur_name" ng-change="loadList()">
+                                </td>
+                                <td>
+                                    <select ng-model="search.data.sex" class="form-control input-sm"
+                                            ng-options="row.code as row.code for row in sexIndex"
+                                            ng-change="loadList()">
+                                        <option value="">--All--</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input class="form-control input-sm" type="number" placeholder="Year of DOB" ng-model="search.data.DOB" maxlength="4" ng-change="loadList()">
+                                </td>
+                                <td>
+                                    <input class="form-control input-sm" type="text" placeholder="Mobile Phone"  ng-model="search.data.Mobile" ng-change="loadList()">
+                                </td>
+                                <!-- END SEARCH -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="l in list.results" ng-click="goToBooking(l)" style="cursor: pointer;">
+                                <td>{{l.First_name}}</td>
+                                <td>{{l.Sur_name}}</td>
+                                <td>{{l.Sex}}</td>
+                                <td>{{l.DOB}}</td>
+                                <td>{{l.Mobile}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div> <!-- END COL-MD-12-->
+            </div> <!-- END ROW -->
+            <!-- END SEARCH -->
+
+            <!-- INSERT -->
+            <!-- STEP 1 -->
+            <div ng-show="mode === 'add'">
+
+                <!-- HEADER -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="btn default" ng-click="insertBackStep()" ng-show="insert_step > 1">
+                            Back
+                        </button>
+                        <button class="btn green" ng-click="insertNextStep(patientForm)">
+                            <span ng-show="insert_step < 3">Next</span>
+                            <span ng-show="insert_step === 3">Accept Patient</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- END HEADER -->
+
+                <div ng-show="insert_step === 1" class="row">
+                    <div ng-include="'modules/patient/views/patient/step1.html'"></div>
+                </div> 
+                <!-- END STEP 1 -->
+
+                <!-- STEP 2 -->
+                <div ng-show="insert_step == 2" class="row">
+                    <div ng-include="'modules/patient/views/patient/step2.html'"></div>
+                </div>
+                <!-- END STEP 2 -->
+
+                <!-- STEP 3 -->
+                <span ng-show="insert_step === 3">
+                    <div ng-include="'modules/patient/views/patient/step3.html'"></div>
+                </div>
+                <!-- END STEP 3 -->
+            </div>
+            <!-- END INSERT -->
+
+        </span>
+
+        <div class="break-row"></div>
+
+    </div> <!-- END PANEL BODY -->
+</div> <!-- END PANEL -->
+<!-- END BOOKING INFO -->
+<div class="form-actions">
+    <div class="row">
+        <div class="col-md-9">
+            <button class="btn btn-warning" ng-click="prevStep()" ng-show="step > 1">Back</button>
+            <button class="btn btn-primary" ng-click="nextStep()" ng-show="label_step !== ''">{{label_step}}</button>
+        </div>
+    </div>
+</div> <!-- END FORM ACTIONS -->
+</form>
